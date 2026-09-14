@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const pool = require("./db");
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -20,6 +22,26 @@ app.get("/api/health", (req, res) => {
     status: "healthy",
     service: "accesshub-api",
   });
+});
+
+app.get("/api/db-test", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT id, name FROM applications ORDER BY id"
+    );
+
+    res.json({
+      status: "connected",
+      applications: result.rows,
+    });
+  } catch (error) {
+    console.error("Database connection error:", error.message);
+
+    res.status(500).json({
+      status: "error",
+      message: "Database connection failed",
+    });
+  }
 });
 
 app.listen(PORT, () => {
