@@ -14,3 +14,76 @@ input,
 select {
   font: inherit;
 }
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1 {
+  margin-bottom: 8px;
+}
+
+.auth-card p {
+  color: #6b7280;
+}
+
+.auth-card h2 {
+  margin-top: 28px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-card label {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.auth-card input {
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+}
+
+.auth-card form button {
+  margin-top: 15px;
+  padding: 11px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: #111827;
+  color: white;
+}
+
+.auth-card form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.switch-auth {
+  margin-top: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #2563eb;
+}
+
+.auth-message {
+  color: #dc2626 !important;
+}
