@@ -11,7 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-
+import Employees from "./pages/Employees";
+import Roles from "./pages/Roles";
 
 function DashboardLayout({ children }) {
 
@@ -76,28 +77,26 @@ function App() {
 
 
         <Route
-          path="/employees"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <ComingSoon />
-              </DashboardLayout>
-            </ProtectedRoute>
+         path="/employees"
+         element={
+           <ProtectedRoute>
+             <DashboardLayout>
+               <Employees />
+             </DashboardLayout>
+           </ProtectedRoute>
           }
         />
-
 
         <Route
-          path="/roles"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <ComingSoon />
-              </DashboardLayout>
-            </ProtectedRoute>
+           path="/roles"
+           element={
+             <ProtectedRoute>
+               <DashboardLayout>
+                 <Roles />
+               </DashboardLayout>
+             </ProtectedRoute>
           }
         />
-
 
         <Route
           path="/applications"

@@ -377,3 +377,148 @@ select {
   border-radius: 6px;
   cursor: pointer;
 }
+
+.employee-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.employee-toolbar input,
+.employee-toolbar select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: white;
+}
+
+.employee-toolbar input {
+  width: 300px;
+}
+
+.primary-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.employee-table-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 15px 18px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.data-table th {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.data-table td {
+  font-size: 14px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.status-badge.active {
+  background: #dcfce7;
+}
+
+.status-badge.inactive {
+  background: #fee2e2;
+}
+
+@media (max-width: 700px) {
+  .employee-toolbar {
+    flex-direction: column;
+  }
+
+  .employee-toolbar input {
+    width: 100%;
+  }
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 18px;
+}
+
+.role-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.role-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.role-card-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.role-card-header span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.role-card p {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+
+.secondary-button {
+  padding: 9px 13px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .roles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .roles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

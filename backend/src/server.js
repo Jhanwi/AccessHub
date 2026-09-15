@@ -5,7 +5,9 @@ require("dotenv").config();
 const pool = require("./db");
 const authRoutes = require("./auth");
 const dashboardRoutes = require("./dashboard");
+const employeeRoutes = require("./employees");
 const { authenticateToken } = require("./middleware");
+const roleRoutes = require("./roles");
 
 const app = express();
 
@@ -13,9 +15,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/employees", employeeRoutes);
+
+app.use("/api/roles", roleRoutes);
 
 app.get("/", (req, res) => {
   res.json({
