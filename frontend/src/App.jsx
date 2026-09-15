@@ -17,6 +17,7 @@ import Applications from "./pages/Applications";
 import Access from "./pages/Access";
 import Onboarding from "./pages/Onboarding";
 import Offboarding from "./pages/Offboarding";
+import AuditLogs from "./pages/AuditLogs";
 
 function DashboardLayout({ children }) {
 
@@ -155,7 +156,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <ComingSoon />
+                <AuditLogs />
               </DashboardLayout>
             </ProtectedRoute>
           }

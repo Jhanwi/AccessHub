@@ -12,6 +12,7 @@ const applicationRoutes = require("./applications");
 const accessRoutes = require("./access");
 const onboardingRoutes = require("./onboarding");
 const offboardingRoutes = require("./offboarding");
+const auditRoutes = require("./audit");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(
   "/api/offboarding",
   offboardingRoutes
 );
+app.use("/api/audit-logs", auditRoutes);
 
 app.get("/", (req, res) => {
   res.json({
