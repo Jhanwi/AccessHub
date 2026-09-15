@@ -8,7 +8,6 @@ const {
 
 const router = express.Router();
 
-
 // ==========================================
 // Get Roles
 // ==========================================
@@ -18,8 +17,7 @@ router.get(
   authenticateToken,
   requirePermission("roles:read"),
   async (req, res) => {
-    const organizationId =
-      req.user.organizationId;
+    const organizationId = req.user.organizationId;
 
     try {
       const result = await pool.query(
@@ -36,21 +34,17 @@ router.get(
         [organizationId]
       );
 
-      const data = result.rows.map(
-        (row) => ({
-          id: row.id,
-          name: row.name,
-          employeeCount:
-            Number(row.employee_count),
-        })
-      );
+      const data = result.rows.map((row) => ({
+        id: row.id,
+        name: row.name,
+        employeeCount: Number(row.employee_count),
+      }));
 
-      res.json({ data });
+      res.json({
+        data,
+      });
     } catch (error) {
-      console.error(
-        "Get roles error:",
-        error.message
-      );
+      console.error("Get roles error:", error);
 
       res.status(500).json({
         message: "Failed to load roles",
@@ -58,7 +52,6 @@ router.get(
     }
   }
 );
-
 
 // ==========================================
 // Get Role Permissions
@@ -70,8 +63,7 @@ router.get(
   requirePermission("roles:read"),
   async (req, res) => {
     const roleId = req.params.id;
-    const organizationId =
-      req.user.organizationId;
+    const organizationId = req.user.organizationId;
 
     try {
       const result = await pool.query(
@@ -90,10 +82,7 @@ router.get(
          WHERE roles.id = $1
          AND roles.organization_id = $2
          ORDER BY permissions.name`,
-        [
-          roleId,
-          organizationId,
-        ]
+        [roleId, organizationId]
       );
 
       if (result.rows.length === 0) {
@@ -105,26 +94,20 @@ router.get(
       const role = {
         id: result.rows[0].id,
         name: result.rows[0].name,
-        permissions:
-          result.rows
-            .filter(
-              (row) =>
-                row.permission_id !== null
-            )
-            .map((row) => ({
-              id: row.permission_id,
-              name: row.permission_name,
-              description:
-                row.description,
-            })),
+        permissions: result.rows
+          .filter(
+            (row) => row.permission_id !== null
+          )
+          .map((row) => ({
+            id: row.permission_id,
+            name: row.permission_name,
+            description: row.description,
+          })),
       };
 
       res.json(role);
     } catch (error) {
-      console.error(
-        "Get role error:",
-        error.message
-      );
+      console.error("Get role error:", error);
 
       res.status(500).json({
         message: "Failed to load role",
@@ -132,7 +115,6 @@ router.get(
     }
   }
 );
-
 
 // ==========================================
 // Create Role
@@ -144,9 +126,7 @@ router.post(
   requirePermission("roles:create"),
   async (req, res) => {
     const { name } = req.body;
-
-    const organizationId =
-      req.user.organizationId;
+    const organizationId = req.user.organizationId;
 
     if (!name) {
       return res.status(400).json({
@@ -163,10 +143,7 @@ router.post(
          )
          VALUES ($1, $2)
          RETURNING id, name`,
-        [
-          organizationId,
-          name,
-        ]
+        [organizationId, name]
       );
 
       res.status(201).json({
@@ -174,10 +151,7 @@ router.post(
         role: result.rows[0],
       });
     } catch (error) {
-      console.error(
-        "Create role error:",
-        error.message
-      );
+      console.error("Create role error:", error);
 
       res.status(500).json({
         message: "Failed to create role",
@@ -185,7 +159,6 @@ router.post(
     }
   }
 );
-
 
 // ==========================================
 // Update Role Permissions
@@ -207,7 +180,6 @@ router.put(
     }
 
     try {
-      // Check role belongs to current organization
       const roleResult = await pool.query(
         `SELECT id
          FROM roles
@@ -222,7 +194,6 @@ router.put(
         });
       }
 
-      // Check all permission IDs exist
       if (permissionIds.length > 0) {
         const permissionResult = await pool.query(
           `SELECT id
@@ -236,19 +207,18 @@ router.put(
           permissionIds.length
         ) {
           return res.status(400).json({
-            message: "One or more permissions are invalid",
+            message:
+              "One or more permissions are invalid",
           });
         }
       }
 
-      // Remove old permissions
       await pool.query(
         `DELETE FROM role_permissions
          WHERE role_id = $1`,
         [roleId]
       );
 
-      // Add new permissions
       for (const permissionId of permissionIds) {
         await pool.query(
           `INSERT INTO role_permissions
@@ -259,19 +229,22 @@ router.put(
       }
 
       res.json({
-        message: "Role permissions updated successfully",
+        message:
+          "Role permissions updated successfully",
       });
     } catch (error) {
       console.error(
         "Update role permissions error:",
-        error.message
+        error
       );
 
       res.status(500).json({
-        message: "Failed to update role permissions",
+        message:
+          "Failed to update role permissions",
       });
     }
   }
 );
 
 module.exports = router;
+

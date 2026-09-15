@@ -1,75 +1,88 @@
 import { NavLink } from "react-router-dom";
 
-
 function Sidebar() {
-
-  const menuItems = [
+  const links = [
     {
-      label: "Dashboard",
+      name: "Dashboard",
       path: "/dashboard",
     },
     {
-      label: "Employees",
+      name: "Employees",
       path: "/employees",
     },
     {
-      label: "Roles",
+      name: "Roles",
       path: "/roles",
     },
     {
-      label: "Applications",
+      name: "Applications",
       path: "/applications",
     },
     {
-      label: "Access",
+      name: "Access Management",
       path: "/access",
     },
     {
-      label: "Onboarding",
+      name: "Onboarding",
       path: "/onboarding",
     },
     {
-      label: "Offboarding",
+      name: "Offboarding",
       path: "/offboarding",
     },
     {
-      label: "Audit Logs",
+      name: "Audit Logs",
       path: "/audit-logs",
     },
   ];
 
-
   return (
-    <aside className="sidebar">
-
-      <div className="sidebar-logo">
+    <aside
+      style={{
+        width: "240px",
+        minHeight: "100vh",
+        backgroundColor: "#111827",
+        color: "white",
+        padding: "24px 16px",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "22px",
+          fontWeight: "700",
+          marginBottom: "30px",
+          paddingLeft: "8px",
+        }}
+      >
         AccessHub
       </div>
 
-
-      <nav className="sidebar-nav">
-
-        {menuItems.map((item) => (
-
+      <nav>
+        {links.map((link) => (
           <NavLink
-            key={item.path}
-            to={item.path}
-            className={({ isActive }) =>
-              isActive
-                ? "sidebar-link active"
-                : "sidebar-link"
-            }
+            key={link.path}
+            to={link.path}
+            style={({ isActive }) => ({
+              display: "block",
+              padding: "12px 14px",
+              marginBottom: "6px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              color: isActive ? "#ffffff" : "#9ca3af",
+              backgroundColor: isActive
+                ? "#2563eb"
+                : "transparent",
+              fontWeight: isActive ? "600" : "400",
+              transition: "0.2s",
+            })}
           >
-            {item.label}
+            {link.name}
           </NavLink>
-
         ))}
-
       </nav>
-
     </aside>
   );
 }
-
 
 export default Sidebar;

@@ -10,6 +10,8 @@ const { authenticateToken } = require("./middleware");
 const roleRoutes = require("./roles");
 const applicationRoutes = require("./applications");
 const accessRoutes = require("./access");
+const onboardingRoutes = require("./onboarding");
+const offboardingRoutes = require("./offboarding");
 
 const app = express();
 
@@ -22,9 +24,14 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/access", accessRoutes);
 app.use(
-  "/api/access",
-  accessRoutes
+  "/api/onboarding",
+  onboardingRoutes
+);
+app.use(
+  "/api/offboarding",
+  offboardingRoutes
 );
 
 app.get("/", (req, res) => {

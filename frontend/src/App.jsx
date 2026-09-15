@@ -15,6 +15,8 @@ import Employees from "./pages/Employees";
 import Roles from "./pages/Roles";
 import Applications from "./pages/Applications";
 import Access from "./pages/Access";
+import Onboarding from "./pages/Onboarding";
+import Offboarding from "./pages/Offboarding";
 
 function DashboardLayout({ children }) {
 
@@ -129,7 +131,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <ComingSoon />
+                <Onboarding />
               </DashboardLayout>
             </ProtectedRoute>
           }
@@ -141,7 +143,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <ComingSoon />
+                <Offboarding />
               </DashboardLayout>
             </ProtectedRoute>
           }
