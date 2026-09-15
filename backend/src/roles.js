@@ -198,62 +198,68 @@ router.put(
   async (req, res) => {
     const roleId = req.params.id;
     const { permissionIds } = req.body;
-
-    const organizationId =
-      req.user.organizationId;
+    const organizationId = req.user.organizationId;
 
     if (!Array.isArray(permissionIds)) {
       return res.status(400).json({
-        message:
-          "permissionIds must be an array",
+        message: "permissionIds must be an array",
       });
     }
 
     try {
-      const roleResult =
-        await pool.query(
-          `SELECT id
-           FROM roles
-           WHERE id = $1
-           AND organization_id = $2`,
-          [
-            roleId,
-            organizationId,
-          ]
-        );
+      // Check role belongs to current organization
+      const roleResult = await pool.query(
+        `SELECT id
+         FROM roles
+         WHERE id = $1
+         AND organization_id = $2`,
+        [roleId, organizationId]
+      );
 
-      if (
-        roleResult.rows.length === 0
-      ) {
+      if (roleResult.rows.length === 0) {
         return res.status(404).json({
           message: "Role not found",
         });
       }
 
+      // Check all permission IDs exist
+      if (permissionIds.length > 0) {
+        const permissionResult = await pool.query(
+          `SELECT id
+           FROM permissions
+           WHERE id = ANY($1::int[])`,
+          [permissionIds]
+        );
+
+        if (
+          permissionResult.rows.length !==
+          permissionIds.length
+        ) {
+          return res.status(400).json({
+            message: "One or more permissions are invalid",
+          });
+        }
+      }
+
+      // Remove old permissions
       await pool.query(
         `DELETE FROM role_permissions
          WHERE role_id = $1`,
         [roleId]
       );
 
+      // Add new permissions
       for (const permissionId of permissionIds) {
         await pool.query(
           `INSERT INTO role_permissions
-           (
-             role_id,
-             permission_id
-           )
+           (role_id, permission_id)
            VALUES ($1, $2)`,
-          [
-            roleId,
-            permissionId,
-          ]
+          [roleId, permissionId]
         );
       }
 
       res.json({
-        message:
-          "Role permissions updated successfully",
+        message: "Role permissions updated successfully",
       });
     } catch (error) {
       console.error(
@@ -262,12 +268,10 @@ router.put(
       );
 
       res.status(500).json({
-        message:
-          "Failed to update role permissions",
+        message: "Failed to update role permissions",
       });
     }
   }
 );
-
 
 module.exports = router;

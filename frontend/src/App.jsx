@@ -13,6 +13,8 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Employees from "./pages/Employees";
 import Roles from "./pages/Roles";
+import Applications from "./pages/Applications";
+import Access from "./pages/Access";
 
 function DashboardLayout({ children }) {
 
@@ -103,7 +105,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <ComingSoon />
+                <Applications />
               </DashboardLayout>
             </ProtectedRoute>
           }
@@ -115,7 +117,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <ComingSoon />
+                <Access />
               </DashboardLayout>
             </ProtectedRoute>
           }
