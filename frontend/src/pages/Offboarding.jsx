@@ -16,6 +16,7 @@ function Offboarding() {
   async function loadEmployees() {
     try {
       setLoading(true);
+      setError("");
 
       const response =
         await api.get("/employees");
@@ -28,7 +29,7 @@ function Offboarding() {
 
       setError(
         error.response?.data?.message ||
-          "Failed to load employees"
+          "Failed to load employees."
       );
     } finally {
       setLoading(false);
@@ -57,16 +58,17 @@ function Offboarding() {
         );
 
       setMessage(
-        response.data.message
+        response.data.message ||
+          "Employee offboarded successfully."
       );
 
-      loadEmployees();
+      await loadEmployees();
     } catch (error) {
       console.error(error);
 
       setError(
         error.response?.data?.message ||
-          "Failed to offboard employee"
+          "Failed to offboard employee."
       );
     } finally {
       setProcessingId(null);
@@ -74,7 +76,12 @@ function Offboarding() {
   }
 
   if (loading) {
-    return <p>Loading employees...</p>;
+    return (
+      <div className="page">
+        <h1>Employee Offboarding</h1>
+        <p>Loading employees...</p>
+      </div>
+    );
   }
 
   return (

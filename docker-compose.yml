@@ -1,0 +1,22 @@
+
+services:
+  backend:
+    build: ./backend
+    container_name: accesshub-backend
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: accesshub-frontend
+    ports:
+      - "5174:5174"
+    environment:
+      VITE_API_URL: http://localhost:5001/api
+    depends_on:
+      - backend
+    restart: unless-stopped
+

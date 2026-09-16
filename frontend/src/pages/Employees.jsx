@@ -30,23 +30,19 @@ function Employees() {
 
   async function loadEmployees() {
     try {
-      setLoading(true);
+     setLoading(true);
+     setError("");
 
-      const response = await api.get("/employees");
+     const response = await api.get("/employees");
 
-      setEmployees(response.data.data || []);
-      setError("");
+     setEmployees(response.data.data || []);
     } catch (error) {
-      console.error(error);
-
-      setError(
-        error.response?.data?.message ||
-          "Failed to load employees"
-      );
+     console.error(error);
+     setError("Unable to load employees.");
     } finally {
-      setLoading(false);
-    }
-  }
+     setLoading(false);
+   }
+}
 
   async function loadRoles() {
     try {

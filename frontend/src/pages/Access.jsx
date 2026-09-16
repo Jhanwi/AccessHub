@@ -27,6 +27,7 @@ function Access() {
   async function loadData() {
     try {
       setLoading(true);
+      setError("");
 
       const [
         accessResponse,
@@ -49,14 +50,12 @@ function Access() {
       setApplications(
         applicationResponse.data.data || []
       );
-
-      setError("");
     } catch (error) {
       console.error(error);
 
       setError(
         error.response?.data?.message ||
-          "Failed to load access data"
+          "Failed to load access data."
       );
     } finally {
       setLoading(false);
@@ -136,6 +135,7 @@ function Access() {
               event.target.value
             )
           }
+          disabled={loading}
         >
           <option value="">
             Select employee
@@ -160,6 +160,7 @@ function Access() {
               event.target.value
             )
           }
+          disabled={loading}
         >
           <option value="">
             Select application
@@ -180,6 +181,7 @@ function Access() {
         <button
           className="primary-button"
           onClick={grantAccess}
+          disabled={loading}
         >
           Grant Access
         </button>

@@ -18,7 +18,11 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5174",
+  })
+);
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
@@ -73,6 +77,14 @@ app.get("/api/protected", authenticateToken, (req, res) => {
   res.json({
     message: "You accessed a protected route",
     user: req.user,
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(500).json({
+    message: "Internal server error",
   });
 });
 
