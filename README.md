@@ -356,4 +356,3 @@ B.Tech — Computer Science & Engineering
 
 [GitHub Repository](https://github.com/Jhanwi/AccessHub)
 
-> **Note:** Replace `YOUR_LIVE_DEMO_URL` with the actual deployed URL after deployment.
