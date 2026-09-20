@@ -3,11 +3,10 @@
 ### Startup Access & Permission Management Platform
 
 >AccessHub is a full-stack platform for managing **employees, roles, application access, onboarding, and offboarding** from one place. Instead of managing access manually across different applications, administrators can use AccessHub to **assign roles, grant or revoke access, and track important changes**.
-
-<p align="center">
-  <a href="https://access-hub-bice.vercel.app/">🚀 Live Demo</a> •
+><p>
+  <a href="https://access-hub-bice.vercel.app/">🚀 Live Demo</a><br>
   <a href="https://github.com/Jhanwi/AccessHub">💻 GitHub</a>
-</p>
+ </p>
 
 ---
 
