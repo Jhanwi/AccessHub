@@ -1,62 +1,216 @@
-# AccessHub
+# 🔐 AccessHub
 
-A full-stack **Startup Access & Permission Management Platform** for managing employees, roles, application access, onboarding, offboarding, and audit activity from a centralized dashboard.
+### Startup Access & Permission Management Platform
 
-AccessHub is designed around a common problem in growing organizations: employees need access to multiple applications, while administrators need a simple way to control permissions, track access changes, and remove access when someone leaves the organization.
+>AccessHub is a full-stack platform for managing **employees, roles, application access, onboarding, and offboarding** from one place. Instead of managing access manually across different applications, administrators can use AccessHub to **assign roles, grant or revoke access, and track important changes**.
 
-## Features
+<p align="center">
+  <a href="https://access-hub-bice.vercel.app/">🚀 Live Demo</a> •
+  <a href="https://github.com/Jhanwi/AccessHub">💻 GitHub</a>
+</p>
 
-* JWT-based authentication
-* Role-Based Access Control (RBAC)
-* Organization-scoped data access
-* Employee management
-* Role and permission management
-* Application management
-* Grant and revoke application access
-* Employee onboarding workflow
-* Employee offboarding workflow
-* Automatic access revocation during offboarding
-* Audit logs for important access and account actions
-* Admin dashboard with activity and access statistics
-* Protected API routes
-* PostgreSQL database
-* Docker support
-* API benchmark and security tests
+---
 
-## Tech Stack
+## 💡 What Problem Does It Solve?
 
-### Frontend
+Managing employee access becomes difficult when an organization uses many applications.Important changes are recorded in **audit logs**, making it easier to track who performed an action and when.
 
-* React.js
-* JavaScript
-* React Router
-* Axios
-* Recharts
-* Vite
+AccessHub brings these tasks together:
 
-### Backend
+| 👤 Employees              | 🎭 Roles           | 📦 Applications       |
+| ------------------------- | ------------------ | --------------------- |
+| Create & manage users     | Assign permissions | Manage company apps   |
+| Enable / disable accounts | Control actions    | Grant / revoke access |
 
-* Node.js
-* Express.js
-* PostgreSQL
-* JWT
-* bcrypt
-* REST APIs
+---
 
-### Development & Deployment
+## ✨ Key Features
 
-* Git
-* GitHub
-* Docker
-* Supabase PostgreSQL
-* Vercel
-* Render
+<details>
+<summary>🔐 <b>Authentication & RBAC</b></summary>
 
-## Project Architecture
+Users authenticate with **JWT**, while backend permissions determine which actions they can perform.
+
+Example permissions:
+
+```text
+users:read
+users:create
+roles:update
+access:grant
+access:revoke
+audit:read
+```
+
+</details>
+
+<details>
+<summary>👥 <b>Employee Management</b></summary>
+
+Administrators can:
+* Add employees
+* Update employee information
+* Assign roles
+* Disable accounts
+* Manage application access
+
+</details>
+
+<details>
+<summary>🔑 <b>Application Access</b></summary>
+
+Administrators can add applications and control which employees can use them.Access records are retained so previous access activity can be tracked.
+
+**Grant access → Employee uses application → Revoke access when needed**
+
+</details>
+
+<details>
+<summary>🚀 <b>Onboarding</b></summary>
+
+A new employee can be set up through one workflow:
+
+**Create employee → Assign role → Select applications → Grant access → Record activity**
+
+</details>
+
+<details>
+<summary>🚪 <b>Offboarding</b></summary>
+
+When an employee leaves:
+
+**Disable account → Find active access → Revoke access → Record changes**
+
+</details>
+
+<details>
+<summary>📋 <b>Audit Logs</b></summary>
+
+Important actions are recorded with information such as:
+
+* User who performed the action
+* Action performed
+* Entity affected
+* Additional details
+* Timestamp
+
+</details>
+
+---
+
+## 📊 Admin Dashboard
+
+The dashboard gives administrators a quick overview of the organization.
+
+**Employees**
+
+> Total and active employees
+
+**Roles**
+
+> Employee distribution by role
+
+**Applications**
+
+> Available applications
+
+**Access**
+
+> Active access grants and distribution
+
+**Activity**
+
+> Recent account and access changes
+
+---
+
+## 🏗️ How the System Works
+
+The application follows a simple request flow:
+
+```text
+React Frontend
+      ↓
+Express REST API
+      ↓
+JWT Authentication
+      ↓
+Permission / RBAC Check
+      ↓
+PostgreSQL
+```
+
+Each layer has a specific job:
+
+* **React** → Dashboard and user interface
+* **Express** → REST API and business logic
+* **JWT** → Identifies authenticated users
+* **RBAC** → Checks what the user is allowed to do
+* **PostgreSQL** → Stores users, roles, applications, access, and audit data
+
+---
+
+## 🌐 API Overview
+
+AccessHub currently contains **32 REST API routes**, with **27 protected routes**.
+
+| Module          | Routes |
+| --------------- | -----: |
+| Authentication  |      4 |
+| Dashboard       |      5 |
+| Employees       |      6 |
+| Roles           |      4 |
+| Applications    |      3 |
+| Access          |      3 |
+| Onboarding      |      1 |
+| Offboarding     |      1 |
+| Audit Logs      |      1 |
+| Server / Health |      4 |
+| **Total**       | **32** |
+
+---
+
+## 🗄️ Database
+
+PostgreSQL stores the main entities used by the platform:
+
+```text
+Organizations
+    ├── Users
+    ├── Roles
+    │    └── Permissions
+    ├── Applications
+    ├── Access Grants
+    └── Audit Logs
+```
+
+Organization-level filtering keeps users, applications, roles, and audit information associated with the correct organization.
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**
+
+`React.js` `JavaScript` `React Router` `Axios` `Recharts` `Vite`
+
+**Backend**
+
+`Node.js` `Express.js` `PostgreSQL` `JWT` `bcrypt` `REST APIs`
+
+**Development & Deployment**
+
+`Git` `GitHub` `Docker` `Supabase PostgreSQL` `Vercel` `Render`
+
+---
+
+## 📁 Project Structure
+
+<details>
+<summary>Click to view</summary>
 
 ```text
 AccessHub/
-│
 ├── backend/
 │   └── src/
 │       ├── server.js
@@ -81,191 +235,35 @@ AccessHub/
 │       └── main.jsx
 │
 ├── database/
-│   ├── schema.sql
-│   └── seed.sql
-│
 ├── tests/
-│   ├── api-tests.sh
-│   ├── benchmark.js
-│   └── rbac-setup.sql
-│
 ├── docker-compose.yml
 └── README.md
 ```
 
-## Core Modules
+</details>
 
-### Authentication
+---
 
-Users can register and log in using JWT-based authentication. Protected requests use the JWT to identify the authenticated user and their organization.
+## 🚀 Run Locally
 
-### Employees
+<details>
+<summary>Click to view setup</summary>
 
-Administrators can:
-
-* View employees
-* Add employees
-* Update employee information
-* Disable employees
-* Assign roles
-
-### RBAC
-
-AccessHub uses permission-based authorization rather than relying only on frontend restrictions.
-
-Example permissions include:
-
-```text
-users:read
-users:create
-users:update
-users:delete
-
-roles:read
-roles:create
-roles:update
-
-applications:read
-applications:create
-
-access:grant
-access:revoke
-
-audit:read
-```
-
-The backend checks the authenticated user's permissions before allowing protected operations.
-
-### Applications
-
-Administrators can create and manage applications used by the organization.
-
-Examples:
-
-```text
-GitHub
-Slack
-Jira
-Google Workspace
-Notion
-```
-
-### Access Management
-
-Administrators can grant application access to employees and revoke it when access is no longer required.
-
-Access records retain their status instead of simply deleting the record, allowing the system to preserve the access history.
-
-### Onboarding
-
-The onboarding workflow allows an administrator to:
-
-1. Create an employee account.
-2. Assign a role.
-3. Select required applications.
-4. Grant application access.
-5. Record the onboarding action in the audit log.
-
-### Offboarding
-
-The offboarding workflow:
-
-1. Disables the employee account.
-2. Finds active application access.
-3. Revokes the employee's active access.
-4. Records the changes in the audit logs.
-
-This creates a single workflow for removing access when an employee leaves the organization.
-
-### Audit Logs
-
-Important system actions are recorded in the `audit_logs` table.
-
-Audit records can include:
-
-* User performing the action
-* Action performed
-* Entity type
-* Entity ID
-* Additional details
-* Timestamp
-
-This provides administrators with a history of important account and access changes.
-
-## Dashboard
-
-The dashboard provides an overview of the organization's access activity.
-
-It includes:
-
-* Total employees
-* Active employees
-* Applications
-* Active access grants
-* Access distribution
-* Employees by role
-* Access activity
-* Recent activity
-
-Dashboard data is loaded from multiple backend APIs in parallel.
-
-## API Overview
-
-AccessHub exposes REST API routes for:
-
-| Module         | Routes |
-| -------------- | -----: |
-| Authentication |      4 |
-| Dashboard      |      5 |
-| Employees      |      6 |
-| Roles          |      4 |
-| Applications   |      3 |
-| Access         |      3 |
-| Onboarding     |      1 |
-| Offboarding    |      1 |
-| Audit Logs     |      1 |
-| Server/Health  |      4 |
-| **Total**      | **32** |
-
-Of these, **27 routes require authentication**.
-
-## Database
-
-AccessHub uses PostgreSQL with organization-aware relationships between users, roles, permissions, applications, access grants, and audit logs.
-
-Main tables:
-
-```text
-organizations
-users
-roles
-permissions
-user_roles
-role_permissions
-applications
-access_grants
-audit_logs
-```
-
-Organization IDs are used throughout the backend to keep users, applications, roles, and audit data scoped to the correct organization.
-
-## Running Locally
-
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/Jhanwi/AccessHub.git
 cd AccessHub
 ```
 
-### 2. Configure the backend
+### 2. Install backend
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file:
+Create `.env`:
 
 ```env
 PORT=5001
@@ -274,28 +272,18 @@ JWT_SECRET=your_jwt_secret
 FRONTEND_URL=http://localhost:5174
 ```
 
-Do not commit `.env` to GitHub.
+### 3. Setup database
 
-### 3. Configure the database
+Run:
 
-Create the PostgreSQL database and run:
-
-```bash
+```text
 database/schema.sql
-```
-
-Then load the initial data:
-
-```bash
 database/seed.sql
 ```
 
-The project can use Supabase PostgreSQL for the database.
-
-### 4. Start the backend
+### 4. Start backend
 
 ```bash
-cd backend
 npm run dev
 ```
 
@@ -305,15 +293,9 @@ Backend:
 http://localhost:5001
 ```
 
-Health check:
+### 5. Start frontend
 
-```text
-http://localhost:5001/api/health
-```
-
-### 5. Start the frontend
-
-Open another terminal:
+In another terminal:
 
 ```bash
 cd frontend
@@ -327,123 +309,52 @@ Frontend:
 http://localhost:5174
 ```
 
-## Testing
+</details>
 
-The project includes API checks:
+---
+
+## 🧪 Testing
+
+API tests:
 
 ```bash
 chmod +x tests/api-tests.sh
 ./tests/api-tests.sh
 ```
 
-The API test script checks:
-
-* Backend health
-* Protected employee endpoint
-* Protected application endpoint
-
-Unauthenticated requests to protected resources should be rejected.
-
-## Performance Benchmark
-
-The project also includes:
-
-```text
-tests/benchmark.js
-```
-
-The benchmark is designed to measure:
-
-* JWT authentication overhead
-* Authorization middleware latency
-* API response time
-* p95 response time
-* Dashboard parallel-load time
-* Database round-trip time
-* Audit-log insertion through login
-* Concurrent request handling
-* Requests per second
-* Protected endpoint behavior
-* Error rate
-
-The benchmark should be run against a live backend connected to the configured PostgreSQL database.
+Benchmark:
 
 ```bash
 node tests/benchmark.js
 ```
 
-Benchmark results depend on the machine, network, database location, and deployment environment, so performance numbers should be recorded from an actual benchmark run rather than hard-coded in this README.
+The benchmark measures API response time, authorization overhead, concurrent requests, requests per second, and error rate.
 
-## Security Approach
+> Performance numbers are recorded from actual benchmark runs rather than hard-coded because results depend on the machine, database, network, and deployment environment.
 
-AccessHub applies several backend security controls:
+---
 
+## 🎯 What This Project Demonstrates
+
+* REST API development
+* React dashboard development
 * JWT authentication
-* Password hashing with bcrypt
-* Permission-based authorization
-* Protected API routes
-* Organization-level data filtering
-* Server-side permission checks
-* Access revocation instead of deleting historical records
-* Audit logging for important operations
+* RBAC and permissions
+* PostgreSQL database design
+* Employee access management
+* Onboarding and offboarding workflows
+* Audit logging
+* Protected backend routes
+* Docker-based development
 
-Frontend route protection is used for the user interface, while authorization is enforced again on the backend.
+---
 
-## Example Workflow
-
-A typical employee access lifecycle looks like:
-
-```text
-Administrator
-     │
-     ▼
-Create Employee
-     │
-     ▼
-Assign Role
-     │
-     ▼
-Select Applications
-     │
-     ▼
-Grant Access
-     │
-     ▼
-Employee Uses Applications
-     │
-     ▼
-Offboarding
-     │
-     ├── Disable Employee
-     │
-     ├── Revoke Active Access
-     │
-     └── Record Audit Logs
-```
-
-## Project Purpose
-
-AccessHub was built as a practical full-stack project to demonstrate backend development, authentication, authorization, PostgreSQL data modeling, REST API design, React dashboards, and real-world employee access lifecycle management.
-
-## Future Improvements
-
-Potential future improvements include:
-
-* Email notifications
-* Password reset
-* More granular application permissions
-* Approval-based access requests
-* Scheduled access reviews
-* Exportable audit reports
-* Automated integration tests
-* Production monitoring
-* Rate limiting
-* Refresh-token based authentication
-
-## Author
+## 👩‍💻 Author
 
 **Jhanwi Kumari**
 
 B.Tech — Computer Science & Engineering
 
-GitHub: https://github.com/Jhanwi/AccessHub
+[GitHub Repository](https://github.com/Jhanwi/AccessHub)
+
+> **Note:** Replace `YOUR_LIVE_DEMO_URL` with the actual deployed URL after deployment.
