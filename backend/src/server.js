@@ -18,11 +18,14 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-  })
-);
+app.use(cors({
+  origin: [
+    "https://access-hub-bice.vercel.app",
+    "http://localhost:5174"
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
