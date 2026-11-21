@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://claude.ai/chat/26d1553c-b569-4fa2-b13c-e2ce9d9447df
+HostUrl=https://claude.ai/api/organizations/e8e937d9-37ae-4952-9b97-1a5fb8cd300c/conversations/26d1553c-b569-4fa2-b13c-e2ce9d9447df/wiggle/download-file?path=%2Fmnt%2Fuser-data%2Foutputs%2Ftests%2Fbenchmark.js
