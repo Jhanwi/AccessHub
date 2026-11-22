@@ -1,3 +1,4 @@
+import "../Layout.css";
 import { useNavigate } from "react-router-dom";
 
 

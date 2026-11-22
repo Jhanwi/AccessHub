@@ -14,7 +14,7 @@ import {
 } from "recharts";
 
 import api from "../api";
-
+import "./Dashboard.css";
 
 function Dashboard() {
 

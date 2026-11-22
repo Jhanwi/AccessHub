@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Routes,
@@ -11,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+
 import Employees from "./pages/Employees";
 import Roles from "./pages/Roles";
 import Applications from "./pages/Applications";
@@ -20,59 +22,35 @@ import Offboarding from "./pages/Offboarding";
 import AuditLogs from "./pages/AuditLogs";
 
 function DashboardLayout({ children }) {
-
   return (
     <div className="app-layout">
-
       <Sidebar />
-
       <div className="main-area">
-
         <Navbar />
-
         {children}
-
       </div>
-
     </div>
   );
 }
-
-
-function ComingSoon() {
-
-  return (
-    <div className="page-content">
-
-      <h1>Coming Soon</h1>
-
-      <p>
-        This section will be implemented in a
-        later AccessHub phase.
-      </p>
-
-    </div>
-  );
-}
-
 
 function App() {
-
   return (
     <BrowserRouter>
-
       <Routes>
 
-        <Route
-          path="/login"
-          element={<Authentication />}
-        />
+        {/* Login page opens first */}
+        <Route path="/login" element={<Authentication />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
 
+        {/* Old login URLs */}
+        <Route path="/employee/login" element={<Navigate to="/login" replace />} />
+        <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
+        {/* Employee Dashboard */}
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="employee">
               <DashboardLayout>
                 <Dashboard />
               </DashboardLayout>
@@ -80,104 +58,33 @@ function App() {
           }
         />
 
-
+        {/* Admin Dashboard */}
         <Route
-         path="/employees"
-         element={
-           <ProtectedRoute>
-             <DashboardLayout>
-               <Employees />
-             </DashboardLayout>
-           </ProtectedRoute>
-          }
-        />
-
-        <Route
-           path="/roles"
-           element={
-             <ProtectedRoute>
-               <DashboardLayout>
-                 <Roles />
-               </DashboardLayout>
-             </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/applications"
+          path="/admin/dashboard"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="admin">
               <DashboardLayout>
-                <Applications />
+                <Dashboard />
               </DashboardLayout>
             </ProtectedRoute>
           }
         />
 
+        {/* Admin Pages */}
+        <Route path="/employees" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Employees /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/roles" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Roles /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/applications" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Applications /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/access" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Access /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/onboarding" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Onboarding /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/offboarding" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Offboarding /></DashboardLayout></ProtectedRoute>} />
+        <Route path="/audit-logs" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><AuditLogs /></DashboardLayout></ProtectedRoute>} />
 
-        <Route
-          path="/access"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Access />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="/onboarding"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Onboarding />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="/offboarding"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Offboarding />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="/audit-logs"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <AuditLogs />
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to="/dashboard"
-              replace
-            />
-          }
-        />
+        {/* Unknown routes go to login */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
-
     </BrowserRouter>
   );
 }
-
 
 export default App;

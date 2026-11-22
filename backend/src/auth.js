@@ -222,15 +222,24 @@ router.post(
       const result =
         await pool.query(
           `SELECT
-             id,
-             name,
-             email,
-             password_hash,
-             organization_id,
-             status
-           FROM users
-           WHERE email = $1
-           ORDER BY id
+             u.id,
+             u.name,
+             u.email,
+             u.password_hash,
+             u.organization_id,
+             u.status,
+             COALESCE(
+               (
+                 SELECT array_agg(r.name)
+                 FROM user_roles ur
+                 JOIN roles r ON r.id = ur.role_id
+                 WHERE ur.user_id = u.id
+                ),
+               ARRAY[]::text[]
+              )AS roles
+           FROM users u
+           WHERE u.email = $1
+           ORDER BY u.id
            LIMIT 1`,
           [email]
         );
@@ -354,6 +363,7 @@ router.post(
         organization_id:
           user.organization_id,
         status: user.status,
+        roles: user.roles || [],
       };
 
       res.json({
