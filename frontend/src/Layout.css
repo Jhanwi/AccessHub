@@ -1,5 +1,6 @@
 
-/* ===== APP LAYOUT ===== */
+
+/* ===== APPLICATION LAYOUT ===== */
 .app-layout {
   display: flex;
   width: 100%;
@@ -7,46 +8,101 @@
   min-height: 100vh;
   overflow: hidden;
   background: #f5f7fb;
+  font-family: Inter, Arial, sans-serif;
 }
 
 /* ===== SIDEBAR ===== */
 .app-sidebar {
-  width: 250px;
-  min-width: 250px;
+  width: 260px;
+  min-width: 260px;
   height: 100vh;
-  background: #111827;
+  box-sizing: border-box;
+  background: #101a2d;
   color: #ffffff;
-  padding: 24px 16px;
+  padding: 26px 17px 18px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
 }
 
 .sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 9px;
+  margin-bottom: 42px;
+}
+
+.brand-icon {
+  width: 39px;
+  height: 39px;
+  border-radius: 11px;
+  background: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
   font-size: 22px;
+}
+
+.sidebar-brand > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.brand-name {
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.brand-caption {
+  color: #8190a8;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+}
+
+.sidebar-section-label {
+  color: #71809a;
+  font-size: 10px;
   font-weight: 700;
-  margin-bottom: 30px;
-  padding-left: 8px;
+  letter-spacing: 1.3px;
+  padding: 0 12px;
+  margin-bottom: 13px;
 }
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
 .sidebar-link {
-  display: block;
-  padding: 12px 14px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-height: 45px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border-radius: 9px;
   text-decoration: none;
-  color: #9ca3af;
-  font-size: 14px;
-  transition: 0.2s ease;
+  color: #a5b1c5;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-icon {
+  width: 20px;
+  text-align: center;
+  font-size: 19px;
+  color: #91a2bd;
 }
 
 .sidebar-link:hover {
-  background: #1f2937;
+  background: #1c2a43;
   color: #ffffff;
 }
 
@@ -54,6 +110,63 @@
   background: #2563eb;
   color: #ffffff;
   font-weight: 600;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.sidebar-link.active .sidebar-icon {
+  color: #ffffff;
+}
+
+/* ===== SIDEBAR PROFILE ===== */
+.sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid #26344b;
+  padding-top: 17px;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 5px;
+}
+
+.profile-avatar {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  background: #334e80;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.profile-name {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profile-role {
+  color: #91a0b7;
+  font-size: 10px;
+}
+
+.sidebar-footer {
+  padding: 13px 5px 0;
+  color: #71809a;
+  font-size: 10px;
 }
 
 /* ===== MAIN AREA ===== */
@@ -69,78 +182,270 @@
 
 /* ===== NAVBAR ===== */
 .navbar {
-  height: 68px;
-  min-height: 68px;
+  height: 76px;
+  min-height: 76px;
   width: 100%;
-  padding: 0 28px;
+  box-sizing: border-box;
+  padding: 0 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   background: #ffffff;
-  border-bottom: 1px solid #e5eaf1;
+  border-bottom: 1px solid #e8edf4;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .navbar-title {
   font-size: 17px;
-  font-weight: 600;
-  color: #1e293b;
+  font-weight: 700;
+  color: #17243b;
+}
+
+.navbar-subtitle {
+  font-size: 11px;
+  color: #8793a5;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
 }
 
-.user-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #475569;
-}
-
-.logout-button {
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #475569;
-  padding: 8px 14px;
+/* ===== SEARCH ===== */
+.navbar-search {
+  height: 39px;
+  width: 220px;
+  box-sizing: border-box;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e4e9f0;
+  background: #f8fafc;
   border-radius: 8px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: 0.2s;
+  color: #8491a5;
 }
 
-.logout-button:hover {
-  background: #f1f5f9;
+.navbar-search input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #334155;
+  font-size: 12px;
+}
+
+.search-shortcut {
+  white-space: nowrap;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notification-button {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 9px;
+  background: #f8fafc;
+  color: #52627a;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.notification-button:hover {
+  background: #edf3ff;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 1px solid #ffffff;
+}
+
+/* ===== NAVBAR PROFILE ===== */
+.navbar-profile-wrapper {
+  position: relative;
+}
+
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.navbar-avatar {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  background: #e5edff;
+  color: #2455ad;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.navbar-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbar-user-info strong {
+  font-size: 12px;
+  color: #243249;
+}
+
+.navbar-user-info small {
+  font-size: 10px;
+  color: #8995a7;
+}
+
+.profile-chevron {
+  color: #8793a5;
+  font-size: 16px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 190px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #e6ebf2;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+  z-index: 20;
+}
+
+.dropdown-user {
+  padding: 9px;
+  color: #64748b;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.dropdown-logout {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 7px;
+  background: #fff1f2;
+  color: #dc2626;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dropdown-logout:hover {
+  background: #ffe4e6;
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   .app-sidebar {
-    width: 210px;
-    min-width: 210px;
-    padding: 20px 12px;
+    width: 225px;
+    min-width: 225px;
   }
 
   .navbar {
-    padding: 0 18px;
+    padding: 0 20px;
+  }
+
+  .navbar-search {
+    width: 170px;
   }
 }
 
-@media (max-width: 600px) {
-  .app-layout {
-    overflow: auto;
+@media (max-width: 700px) {
+  .app-sidebar {
+    width: 190px;
+    min-width: 190px;
+    padding: 20px 11px;
   }
 
+  .sidebar-link {
+    font-size: 12px;
+    gap: 8px;
+    padding: 0 9px;
+  }
+
+  .navbar {
+    padding: 0 13px;
+    gap: 8px;
+  }
+
+  .navbar-subtitle,
+  .navbar-search,
+  .navbar-user-info,
+  .profile-chevron {
+    display: none;
+  }
+
+  .navbar-right {
+    gap: 9px;
+  }
+}
+
+@media (max-width: 480px) {
   .app-sidebar {
-    width: 180px;
-    min-width: 180px;
+    width: 66px;
+    min-width: 66px;
+    padding: 18px 7px;
+  }
+
+  .sidebar-brand {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-brand > div:last-child,
+  .sidebar-section-label,
+  .sidebar-link > span:last-child,
+  .profile-details,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .sidebar-link {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .sidebar-icon {
+    font-size: 20px;
+  }
+
+  .sidebar-profile {
+    justify-content: center;
+    padding: 5px 0;
   }
 
   .navbar-title {
     font-size: 14px;
-  }
-
-  .user-name {
-    font-size: 12px;
   }
 }

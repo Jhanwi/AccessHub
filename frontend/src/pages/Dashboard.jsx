@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   PieChart,
   Pie,
@@ -17,6 +17,10 @@ import api from "../api";
 import "./Dashboard.css";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("accesshub_user") || "{}");
+  const isAdmin = user.roles?.some(role => role.toLowerCase() === "admin") || user.role?.toLowerCase() === "admin";
 
   const [stats, setStats] = useState(null);
 
@@ -41,7 +45,7 @@ function Dashboard() {
     loadDashboard();
   }, []);
 
-
+  
   async function loadDashboard() {
 
     try {
@@ -101,6 +105,12 @@ function Dashboard() {
     }
   }
 
+  function handleCardKeyDown(event, path) {
+    if (event.key === "Enter" || event.key === " ") {
+     event.preventDefault();
+     if (isAdmin) navigate(path);
+    }
+  }
 
   if (loading) {
     return (
@@ -162,7 +172,13 @@ function Dashboard() {
 
       <div className="stats-grid">
 
-        <div className="stat-card">
+        <div
+           className={`stat-card ${isAdmin ? "clickable-card" : ""}`}
+           onClick={() => isAdmin && navigate("/employees")}
+           role={isAdmin ? "button" : undefined}
+           tabIndex={isAdmin ? 0 : undefined}
+           onKeyDown={(event) => handleCardKeyDown(event, "/employees")}
+          >
 
           <div className="stat-card-header">
             <span>Total Employees</span>
@@ -179,7 +195,13 @@ function Dashboard() {
         </div>
 
 
-        <div className="stat-card">
+        <div
+           className={`stat-card ${isAdmin ? "clickable-card" : ""}`}
+           onClick={() => isAdmin && navigate("/employees")}
+           role={isAdmin ? "button" : undefined}
+           tabIndex={isAdmin ? 0 : undefined}
+           onKeyDown={(event) => handleCardKeyDown(event, "/employees")}
+          >
 
           <div className="stat-card-header">
             <span>Active Employees</span>
@@ -196,7 +218,13 @@ function Dashboard() {
         </div>
 
 
-        <div className="stat-card">
+        <div
+           className={`stat-card ${isAdmin ? "clickable-card" : ""}`}
+           onClick={() => isAdmin && navigate("/applications")}
+           role={isAdmin ? "button" : undefined}
+           tabIndex={isAdmin ? 0 : undefined}
+           onKeyDown={(event) => handleCardKeyDown(event, "/applications")}
+          >
 
           <div className="stat-card-header">
             <span>Applications</span>
@@ -213,7 +241,13 @@ function Dashboard() {
         </div>
 
 
-        <div className="stat-card">
+        <div
+           className={`stat-card ${isAdmin ? "clickable-card" : ""}`}
+           onClick={() => isAdmin && navigate("/access")}
+           role={isAdmin ? "button" : undefined}
+           tabIndex={isAdmin ? 0 : undefined}
+           onKeyDown={(event) => handleCardKeyDown(event, "/access")}
+          >
 
           <div className="stat-card-header">
             <span>Active Access</span>
@@ -230,7 +264,13 @@ function Dashboard() {
         </div>
 
 
-        <div className="stat-card">
+        <div
+           className={`stat-card ${isAdmin ? "clickable-card" : ""}`}
+           onClick={() => isAdmin && navigate("/access")}
+           role={isAdmin ? "button" : undefined}
+           tabIndex={isAdmin ? 0 : undefined}
+           onKeyDown={(event) => handleCardKeyDown(event, "/access")}
+          >
 
           <div className="stat-card-header">
             <span>Revoked Access</span>
@@ -302,6 +342,7 @@ function Dashboard() {
                       (entry, index) => (
                         <Cell
                           key={`cell-${index}`}
+                          fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
                         />
                       )
                     )}
@@ -363,6 +404,12 @@ function Dashboard() {
 
                   <XAxis
                     dataKey="date"
+                    tickFormatter={(value) =>
+                      new Date(value).toLocaleDateString("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                      })
+                    }
                   />
 
                   <YAxis
@@ -374,7 +421,10 @@ function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="count"
-                    strokeWidth={2}
+                    stroke="#2563eb"
+                    strokeWidth={3}
+                    dot={{ r: 4, fill: "#2563eb" }}
+                    activeDot={{ r: 6 }}
                   />
 
                 </LineChart>
@@ -436,6 +486,7 @@ function Dashboard() {
                       (entry, index) => (
                         <Cell
                           key={`role-${index}`}
+                          fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
                         />
                       )
                     )}
