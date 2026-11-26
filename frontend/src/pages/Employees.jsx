@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import "./Employees.css";
 
 function Employees() {
   const [employees, setEmployees] = useState([]);
@@ -182,7 +183,7 @@ function Employees() {
   );
 
   return (
-    <div className="page-container">
+    <div className="page-container employees-page">
       <div className="page-header">
         <div>
           <h1>Employees</h1>
@@ -264,7 +265,7 @@ function Employees() {
                       <td>{employee.email}</td>
 
                       <td>
-                        {employee.role || "No role"}
+                        {employee.role?.name || "No role"}
                       </td>
 
                       <td>
