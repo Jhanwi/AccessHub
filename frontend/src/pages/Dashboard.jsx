@@ -350,7 +350,7 @@ function Dashboard() {
           <div className="card-header">
 
             <div>
-              <h2>Application Access</h2>
+              <h2><span className="chart-title-icon application-icon">▥</span>Application Access</h2>
 
               <p>
                 Active access by application
@@ -368,70 +368,63 @@ function Dashboard() {
 
           ) : (
 
-            <div className="chart-container">
+            <div className="distribution-layout">
+              <div className="distribution-chart">
+               <ResponsiveContainer width="100%" height={210}>
+                 <PieChart>
+                   <Pie
+                     data={accessDistribution}
+                     dataKey="count"
+                     nameKey="name"
+                     cx="50%"
+                     cy="50%"
+                     innerRadius={48}
+                     outerRadius={78}
+                     paddingAngle={4}
+                     stroke="#ffffff"
+                     strokeWidth={3}
+                    >
+                   {accessDistribution.map((entry, index) => (
+                      <Cell
+                       key={`cell-${index}`}
+                       fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
+                      />
 
-              <ResponsiveContainer
-                width="100%"
-                height={280}
-              >
-
-                <PieChart>
-
-                  <Pie
-                    data={accessDistribution}
-                    dataKey="count"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={95}
-                    label
-                  >
-
-                    {accessDistribution.map(
-                      (entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
-                        />
-                      )
-                    )}
+                    ))}
 
                   </Pie>
-
-                  <Tooltip 
-                   formatter={(value) => [`${value} grants`, "Access Grants"]}
-                   labelFormatter={(value) =>
-                     new Date(value).toLocaleDateString("en-IN", {
-                       day: "2-digit",
-                       month: "long",
-                       year: "numeric",
-                      })
-                    }
-
-                   contentStyle={{
-                     borderRadius: "10px",
-                     border: "1px solid #e2e8f0",
-                     boxShadow: "0 4px 12px rgba(15, 23, 42, 0.08)",
-                     fontSize: "12px",
-                    }}
-                  />
-
-                  <Legend
-                    verticalAlign="bottom"
-                    height={36}
-                    iconType="circle"
-                    wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }}
-                  />
-
+                  <Tooltip formatter={(value, name) => [`${value} grants`, name]} />
+               
                 </PieChart>
-
               </ResponsiveContainer>
-
             </div>
 
-          )}
+           <div className="distribution-details">
+             {accessDistribution.map((entry, index) => {
+             const total = accessDistribution.reduce(
+             (sum, item) => sum + Number(item.count || 0), 0);
+             const percentage = total ? ((Number(entry.count || 0) / total) * 100).toFixed(1) : "0.0";
+             const color = ["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5];
 
+             return (
+               <div className="distribution-detail" key={`access-detail-${index}`}>
+                 <span className="distribution-name">
+                   <span className="distribution-dot" style={{ background: color }} />
+                   <span title={entry.name}>{entry.name}</span>
+
+                  </span>
+
+                 <strong>{entry.count}</strong>
+                 <span className="distribution-percentage">{percentage}%</span>
+
+                </div>
+              );
+            })}
+         </div>
         </div>
+      )}
+
+    </div>
 
 
         {/* Access Activity */}
@@ -441,7 +434,7 @@ function Dashboard() {
           <div className="card-header">
 
             <div>
-              <h2>Access Activity</h2>
+              <h2><span className="chart-title-icon activity-icon">↗</span>Access Activity</h2>
 
               <p>
                 Access grants over time
@@ -463,7 +456,7 @@ function Dashboard() {
 
               <ResponsiveContainer
                 width="100%"
-                height={280}
+                height={220}
               >
 
                 <LineChart
@@ -518,7 +511,7 @@ function Dashboard() {
           <div className="card-header">
 
             <div>
-              <h2>Employees by Role</h2>
+              <h2><span className="chart-title-icon employees-icon">●</span>Employees by Role</h2>
 
               <p>
                 Current role distribution
@@ -536,57 +529,53 @@ function Dashboard() {
 
           ) : (
 
-            <div className="chart-container">
-
-              <ResponsiveContainer
-                width="100%"
-                height={280}
-              >
-
-                <PieChart>
-
-                  <Pie
-                    data={roleDistribution}
-                    dataKey="count"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={95}
-                    label
-                  >
-
-                    {roleDistribution.map(
-                      (entry, index) => (
-                        <Cell
-                          key={`role-${index}`}
-                          fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
+            <div className="distribution-layout">
+             <div className="distribution-chart">
+               <ResponsiveContainer width="100%" height={210}>
+                 <PieChart>
+                   <Pie
+                       data={roleDistribution}
+                       dataKey="count"
+                       nameKey="name"
+                       cx="50%"
+                       cy="50%"
+                       innerRadius={48}
+                       outerRadius={78}
+                       paddingAngle={4}
+                       stroke="#ffffff"
+                       strokeWidth={3}
+                      >
+                     {roleDistribution.map((entry, index) => (
+                       <Cell
+                         key={`role-${index}`}
+                         fill={["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5]}
                         />
-                      )
-                    )}
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(value, name) => [`${value} employees`, name]} />
+                  </PieChart>
+               </ResponsiveContainer>
+              </div>
 
-                  </Pie>
+             <div className="distribution-details">
+               {roleDistribution.map((entry, index) => {
+                 const total = roleDistribution.reduce(
+                 (sum, item) => sum + Number(item.count || 0), 0);
+                 const percentage = total ? ((Number(entry.count || 0) / total) * 100).toFixed(1) : "0.0";
+                 const color = ["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 5];
 
-                  <Tooltip 
-                   formatter={(value, name) => [
-                      `${value} employees`,
-                      name,
-                    ]}
-                  />
-
-                  <Legend
-                    verticalAlign="bottom"
-                    height={36}
-                    iconType="circle"
-                    wrapperStyle={{
-                      fontSize: "12px",
-                      paddingTop: "10px",
-                    }}
-                  />
-
-                </PieChart>
-
-              </ResponsiveContainer>
-
+                 return (
+                   <div className="distribution-detail" key={`role-detail-${index}`}>
+                     <span className="distribution-name">
+                       <span className="distribution-dot" style={{ background: color }} />
+                        <span title={entry.name}>{entry.name}</span>
+                      </span>
+                      <strong>{entry.count}</strong>
+                      <span className="distribution-percentage">{percentage}%</span>
+                   </div>
+                 );
+                })}
+              </div>
             </div>
 
           )}
@@ -601,7 +590,7 @@ function Dashboard() {
           <div className="card-header">
 
             <div>
-              <h2>Recent Activity</h2>
+              <h2><span className="chart-title-icon recent-icon">◷</span>Recent Activity</h2>
 
               <p>
                 Latest organization actions
