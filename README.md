@@ -1,6 +1,4 @@
-# 🔐 AccessHub
-
-### Startup Access & Permission Management Platform
+# 🔐 Employee Access & Permission Management Platform
 
 >AccessHub is a full-stack platform for managing **employees, roles, application access, onboarding, and offboarding** from one place. Instead of managing access manually across different applications, administrators can use AccessHub to **assign roles, grant or revoke access, and track important changes**.
 ><p>
