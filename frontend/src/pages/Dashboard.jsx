@@ -148,24 +148,21 @@ function Dashboard() {
 
       {/* Page Header */}
 
-      <div className="page-header">
+     <div className="page-header">
+       <div>
+         <h1>
+            Welcome back, {user.name || "User"}!
+          </h1>
 
-        <div>
-          <h1>Dashboard</h1>
+         <p> Here's what's happening across your organization today.</p>
+       </div>
 
-          <p>
-            Overview of your organization's access
-            and permissions.
-          </p>
-        </div>
-
-        <button
-          className="refresh-button"
-          onClick={loadDashboard}
-        >
-          Refresh
-        </button>
-
+       <button
+           className="refresh-button"
+           onClick={loadDashboard}
+          >
+         Refresh
+       </button>
       </div>
 
 
@@ -452,53 +449,82 @@ function Dashboard() {
 
           ) : (
 
-            <div className="chart-container">
+            <div className="chart-container access-activity-chart">
 
-              <ResponsiveContainer
-                width="100%"
-                height={220}
-              >
+             <ResponsiveContainer width="100%" height={230}>
+               <LineChart
+                   data={accessActivity}
+                   margin={{ top: 12, right: 12, left: -15, bottom: 5 }}
+                  >
 
-                <LineChart
-                  data={accessActivity}
-                >
-
-                  <CartesianGrid
-                    strokeDasharray="3 3"
+                 <CartesianGrid
+                   stroke="#e8eef7"
+                    strokeDasharray="4 4"
+                   vertical={false}
                   />
 
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={(value) =>
+                 <XAxis
+                   dataKey="date"
+                   tickFormatter={(value) =>
                       new Date(value).toLocaleDateString("en-IN", {
                         day: "2-digit",
-                        month: "short",
-                      })
+                       month: "short",
+                     })
                     }
+                   axisLine={false}
+                   tickLine={false}
+                   tick={{ fill: "#94a3b8", fontSize: 11 }}
+                   tickMargin={12}
+                   minTickGap={20}
                   />
 
                   <YAxis
                     allowDecimals={false}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: "#94a3b8", fontSize: 11 }}
+                    width={35}
                   />
 
-                  <Tooltip />
+                 <Tooltip
+                    labelFormatter={(value) =>
+                     new Date(value).toLocaleDateString("en-IN", {
+                       day: "numeric",
+                       month: "long",
+                        year: "numeric",
+                      })
+                    }
+                   formatter={(value) => [`${value} grants`, "Access Activity"]}
+                   contentStyle={{
+                     background: "#ffffff",
+                     border: "1px solid #e2e8f0",
+                     borderRadius: "10px",
+                     padding: "10px 14px",
+                     boxShadow: "0 5px 18px rgba(15, 23, 42, 0.08)",
+                     fontSize: "12px",
+                    }}
+                   cursor={{ stroke: "#94a3b8", strokeDasharray: "4 4" }}
+                  />
 
-                  <Line
-                    type="monotone"
-                    dataKey="count"
-                    name="Access Grants"
-                    stroke="#2563eb"
-                    strokeWidth={3}
-                    dot={{ r: 4, fill: "#2563eb" }}
-                    activeDot={{ r: 6 }}
+                 <Line
+                   type="monotone"
+                   dataKey="count"
+                   name="Access Grants"
+                   stroke="#2563eb"
+                   strokeWidth={3}
+                   dot={false}
+                   activeDot={{
+                     r: 6,
+                     fill: "#2563eb",
+                     stroke: "#ffffff",
+                     strokeWidth: 3,
+                    }}
                   />
 
                 </LineChart>
-
               </ResponsiveContainer>
 
             </div>
-
           )}
 
         </div>
@@ -575,7 +601,7 @@ function Dashboard() {
                    </div>
                  );
                 })}
-              </div>
+             </div>
             </div>
 
           )}

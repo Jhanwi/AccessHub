@@ -677,3 +677,23 @@
     padding: 0 8px 10px;
   }
 }
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #172554;
+  margin-bottom: 8px;
+  letter-spacing: -0.6px;
+}
+
+.page-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.access-activity-chart {
+  width: 100%;
+  height: 230px;
+  padding-top: 5px;
+}
