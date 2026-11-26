@@ -5,6 +5,7 @@ import {
   Pie,
   Cell,
   Tooltip,
+  Legend,
   ResponsiveContainer,
   LineChart,
   Line,
@@ -181,7 +182,7 @@ function Dashboard() {
           >
 
           <div className="stat-card-header">
-            <span>Total Employees</span>
+            <span>Total Employees</span><span className="stat-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
           </div>
 
           <strong>
@@ -204,7 +205,7 @@ function Dashboard() {
           >
 
           <div className="stat-card-header">
-            <span>Active Employees</span>
+            <span>Active Employees</span><span className="stat-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 11l2 2 4-4"/></svg></span>
           </div>
 
           <strong>
@@ -227,7 +228,7 @@ function Dashboard() {
           >
 
           <div className="stat-card-header">
-            <span>Applications</span>
+            <span>Applications</span><span className="stat-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
           </div>
 
           <strong>
@@ -250,7 +251,7 @@ function Dashboard() {
           >
 
           <div className="stat-card-header">
-            <span>Active Access</span>
+            <span>Active Access</span><span className="stat-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span>
           </div>
 
           <strong>
@@ -273,7 +274,7 @@ function Dashboard() {
           >
 
           <div className="stat-card-header">
-            <span>Revoked Access</span>
+            <span>Revoked Access</span><span className="stat-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 9 6 6m0-6-6 6"/></svg></span>
           </div>
 
           <strong>
@@ -288,6 +289,54 @@ function Dashboard() {
 
       </div>
 
+
+      {/* Quick Actions */}
+      {isAdmin && (
+        <section className="quick-actions-section">
+          <div className="quick-actions-heading">
+            <h2>Quick Actions</h2>
+            <p>Common tasks for managing your organization</p>
+          </div>
+
+          <div className="quick-actions-grid">
+            <button
+              className="quick-action-card"
+              onClick={() => navigate("/employees")}
+            >
+              <span className="quick-action-icon employee-icon">+</span>
+              <span className="quick-action-content">
+                <strong>Add Employee</strong>
+                <small>Create a new employee account</small>
+              </span>
+              <span className="quick-action-arrow">→</span>
+            </button>
+
+            <button
+              className="quick-action-card"
+              onClick={() => navigate("/applications")}
+            >
+              <span className="quick-action-icon application-icon">▦</span>
+              <span className="quick-action-content">
+                <strong>Connect Application</strong>
+                <small>Register an organization application</small>
+              </span>
+              <span className="quick-action-arrow">→</span>
+            </button>
+
+            <button
+              className="quick-action-card"
+              onClick={() => navigate("/access")}
+            >
+              <span className="quick-action-icon access-icon">✓</span>
+              <span className="quick-action-content">
+                <strong>Manage Access</strong>
+                <small>Grant or revoke application access</small>
+              </span>
+              <span className="quick-action-arrow">→</span>
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* Charts */}
 
@@ -349,7 +398,30 @@ function Dashboard() {
 
                   </Pie>
 
-                  <Tooltip />
+                  <Tooltip 
+                   formatter={(value) => [`${value} grants`, "Access Grants"]}
+                   labelFormatter={(value) =>
+                     new Date(value).toLocaleDateString("en-IN", {
+                       day: "2-digit",
+                       month: "long",
+                       year: "numeric",
+                      })
+                    }
+
+                   contentStyle={{
+                     borderRadius: "10px",
+                     border: "1px solid #e2e8f0",
+                     boxShadow: "0 4px 12px rgba(15, 23, 42, 0.08)",
+                     fontSize: "12px",
+                    }}
+                  />
+
+                  <Legend
+                    verticalAlign="bottom"
+                    height={36}
+                    iconType="circle"
+                    wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }}
+                  />
 
                 </PieChart>
 
@@ -421,6 +493,7 @@ function Dashboard() {
                   <Line
                     type="monotone"
                     dataKey="count"
+                    name="Access Grants"
                     stroke="#2563eb"
                     strokeWidth={3}
                     dot={{ r: 4, fill: "#2563eb" }}
@@ -493,7 +566,22 @@ function Dashboard() {
 
                   </Pie>
 
-                  <Tooltip />
+                  <Tooltip 
+                   formatter={(value, name) => [
+                      `${value} employees`,
+                      name,
+                    ]}
+                  />
+
+                  <Legend
+                    verticalAlign="bottom"
+                    height={36}
+                    iconType="circle"
+                    wrapperStyle={{
+                      fontSize: "12px",
+                      paddingTop: "10px",
+                    }}
+                  />
 
                 </PieChart>
 
@@ -550,10 +638,21 @@ function Dashboard() {
                       {activity.action}
                     </strong>
 
-                    <p>
-                      {activity.user_name ||
-                        "System"}
+                    <p className="activity-user">
+                      {activity.user_name || "System"}
                     </p>
+
+                    <span className="activity-time">
+                      {activity.created_at
+                        ? new Date(activity.created_at).toLocaleString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : "Time unavailable"}
+                    </span>
 
                   </div>
 
