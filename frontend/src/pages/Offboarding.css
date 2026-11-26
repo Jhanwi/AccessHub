@@ -1,0 +1,315 @@
+
+.offboarding-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 24px;
+  color: #172033;
+}
+
+.offboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 30px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, #172554, #1e40af);
+  color: white;
+}
+
+.offboarding-header h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+
+.offboarding-header p {
+  margin: 0;
+  color: #dbeafe;
+  font-size: 14px;
+}
+
+.offboarding-header-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.15);
+  font-size: 27px;
+}
+
+.offboarding-alert {
+  padding: 13px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.offboarding-alert.success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.offboarding-alert.error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.offboarding-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.offboarding-stat {
+  padding: 20px;
+  background: white;
+  border: 1px solid #e5eaf2;
+  border-radius: 13px;
+  box-shadow: 0 3px 12px rgba(15,23,42,.04);
+}
+
+.offboarding-stat-label {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.offboarding-stat-value {
+  margin-top: 8px;
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.offboarding-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e5eaf2;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px rgba(15,23,42,.04);
+}
+
+.offboarding-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.offboarding-card-heading h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.offboarding-card-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.offboarding-search {
+  width: 100%;
+  max-width: 360px;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #dbe2ea;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+}
+
+.offboarding-search:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.09);
+}
+
+.offboarding-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.offboarding-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.offboarding-table th {
+  padding: 13px 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.offboarding-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid #edf0f5;
+  font-size: 13px;
+  color: #334155;
+}
+
+.offboarding-table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.offboarding-employee {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 180px;
+}
+
+.offboarding-avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
+.offboarding-employee-name {
+  color: #172033;
+  font-weight: 650;
+}
+
+.offboarding-employee-email {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.offboarding-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: capitalize;
+}
+
+.offboarding-status.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.offboarding-button {
+  padding: 8px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  background: #fff;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.offboarding-button:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+.offboarding-button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.offboarding-disabled-label {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.offboarding-empty {
+  padding: 35px 15px;
+  color: #64748b;
+  text-align: center;
+  font-size: 13px;
+}
+
+.offboarding-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid #fed7aa;
+  border-radius: 11px;
+  background: #fff7ed;
+}
+
+.offboarding-confirm strong {
+  color: #9a3412;
+  font-size: 14px;
+}
+
+.offboarding-confirm p {
+  margin: 0;
+  color: #7c2d12;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.offboarding-confirm-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.offboarding-confirm-actions button {
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.offboarding-confirm-yes {
+  background: #dc2626;
+  color: white;
+}
+
+.offboarding-confirm-no {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+@media (max-width: 700px) {
+  .offboarding-page {
+    padding: 14px;
+  }
+
+  .offboarding-header {
+    padding: 21px;
+  }
+
+  .offboarding-header h1 {
+    font-size: 21px;
+  }
+
+  .offboarding-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .offboarding-card {
+    padding: 16px;
+  }
+
+  .offboarding-card-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .offboarding-search {
+    max-width: none;
+  }
+}

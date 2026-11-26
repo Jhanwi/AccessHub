@@ -1,0 +1,185 @@
+/* Applications Page */
+
+.applications-page {
+  width: 100%;
+}
+
+.applications-page .page-header {
+  margin-bottom: 25px;
+}
+
+.applications-page .page-header h1 {
+  margin: 0 0 7px;
+  color: #172554;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.applications-page .page-header p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Create Application */
+
+.applications-page .create-card {
+  max-width: 700px;
+  padding: 24px;
+  margin-bottom: 25px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.applications-page .section-title {
+  margin: 0 0 20px;
+  color: #172554;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.applications-page .form-group {
+  margin-bottom: 17px;
+}
+
+.applications-page label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.applications-page input,
+.applications-page textarea {
+  width: 100%;
+  padding: 11px 13px;
+  box-sizing: border-box;
+  border: 1px solid #dce4ef;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 13px;
+  outline: none;
+}
+
+.applications-page input {
+  height: 42px;
+}
+
+.applications-page textarea {
+  resize: vertical;
+  min-height: 85px;
+}
+
+.applications-page input:focus,
+.applications-page textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.applications-page .primary-button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.applications-page .primary-button:hover {
+  background: #1d4ed8;
+}
+
+.applications-page button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Messages */
+
+.applications-page .error-message,
+.applications-page .success-message {
+  padding: 13px 16px;
+  margin-bottom: 18px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.applications-page .error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.applications-page .success-message {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+/* Application Cards */
+
+.applications-page .list-section {
+  margin-top: 25px;
+}
+
+.applications-page .application-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 17px;
+}
+
+.applications-page .application-card {
+  padding: 21px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 13px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.applications-page .application-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.07);
+}
+
+.applications-page .application-card h3 {
+  margin: 0 0 10px;
+  color: #1e3a8a;
+  font-size: 16px;
+}
+
+.applications-page .application-description {
+  min-height: 40px;
+  margin-bottom: 17px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.applications-page .application-id {
+  color: #94a3b8;
+  font-size: 11px;
+  word-break: break-all;
+}
+
+.applications-page .empty-state {
+  padding: 35px;
+  text-align: center;
+  color: #64748b;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  .applications-page .create-card {
+    padding: 18px;
+  }
+
+  .applications-page .application-grid {
+    grid-template-columns: 1fr;
+  }
+}

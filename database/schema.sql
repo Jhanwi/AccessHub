@@ -35,6 +35,7 @@ CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
     organization_id INTEGER NOT NULL,
     name VARCHAR(50) NOT NULL,
+    description TEXT,
 
     CONSTRAINT fk_role_organization
         FOREIGN KEY (organization_id)

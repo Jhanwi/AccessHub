@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 import api from "../api";
+import "./Onboarding.css";
 
 function Onboarding() {
   const [name, setName] = useState("");
@@ -12,6 +14,7 @@ function Onboarding() {
   const [roles, setRoles] = useState([]);
   const [applications, setApplications] = useState([]);
 
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -26,42 +29,34 @@ function Onboarding() {
       setLoading(true);
       setError("");
 
-      const employeesResponse = await api.get("/employees");
-      const rolesResponse = await api.get("/roles");
-      const applicationsResponse = await api.get(
-        "/applications"
-      );
+      const [employeesResponse, rolesResponse, applicationsResponse] =
+        await Promise.all([
+          api.get("/employees"),
+          api.get("/roles"),
+          api.get("/applications"),
+        ]);
 
-      const employeesData = Array.isArray(
-        employeesResponse.data
-      )
+      const employeesData = Array.isArray(employeesResponse.data)
         ? employeesResponse.data
-        : employeesResponse.data.employees || [];
+        : employeesResponse.data.data || [];
 
       const rolesData = Array.isArray(rolesResponse.data)
-       ? rolesResponse.data
-       : rolesResponse.data.data || [];
+        ? rolesResponse.data
+        : rolesResponse.data.data || [];
 
-      const applicationsData = Array.isArray(
-        applicationsResponse.data
-      )
+      const applicationsData = Array.isArray(applicationsResponse.data)
         ? applicationsResponse.data
-        : applicationsResponse.data.applications || [];
+        : applicationsResponse.data.data || [];
 
       setEmployees(employeesData);
       setRoles(rolesData);
       setApplications(applicationsData);
-    } catch (error) {
-      console.error(
-        "Failed to load onboarding data:",
-        error
-      );
-
+    } catch (err) {
+      console.error("Failed to load onboarding data:", err);
       setError(
-        error.response?.data?.message ||
+        err.response?.data?.message ||
           "Failed to load onboarding data."
       );
-
       setEmployees([]);
       setRoles([]);
       setApplications([]);
@@ -71,32 +66,20 @@ function Onboarding() {
   }
 
   function handleApplicationChange(applicationId) {
-    setApplicationIds((currentIds) => {
-      if (currentIds.includes(applicationId)) {
-        return currentIds.filter(
-          (id) => id !== applicationId
-        );
-      }
-
-      return [...currentIds, applicationId];
-    });
+    setApplicationIds((currentIds) =>
+      currentIds.includes(applicationId)
+        ? currentIds.filter((id) => id !== applicationId)
+        : [...currentIds, applicationId]
+    );
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     setError("");
     setSuccess("");
 
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !password ||
-      !roleId
-    ) {
-      setError(
-        "Name, email, password and role are required."
-      );
+    if (!name.trim() || !email.trim() || !password || !roleId) {
+      setError("Name, email, password and role are required.");
       return;
     }
 
@@ -112,8 +95,7 @@ function Onboarding() {
       });
 
       setSuccess(
-        response.data.message ||
-          "Employee onboarded successfully."
+        response.data.message || "Employee onboarded successfully."
       );
 
       setName("");
@@ -123,11 +105,10 @@ function Onboarding() {
       setApplicationIds([]);
 
       await loadData();
-    } catch (error) {
-      console.error("Onboarding error:", error);
-
+    } catch (err) {
+      console.error("Onboarding error:", err);
       setError(
-        error.response?.data?.message ||
+        err.response?.data?.message ||
           "Failed to onboard employee."
       );
     } finally {
@@ -135,315 +116,238 @@ function Onboarding() {
     }
   }
 
+  const activeEmployees = employees.filter(
+    (employee) => employee.status === "active"
+  ).length;
+
+  const inactiveEmployees = employees.length - activeEmployees;
+
+  const filteredEmployees = useMemo(() => {
+    const query = search.trim().toLowerCase();
+
+    if (!query) return employees;
+
+    return employees.filter(
+      (employee) =>
+        employee.name?.toLowerCase().includes(query) ||
+        employee.email?.toLowerCase().includes(query) ||
+        String(employee.id).includes(query)
+    );
+  }, [employees, search]);
+
   if (loading) {
     return (
-      <div style={styles.page}>
-        <h1>Employee Onboarding</h1>
-        <p>Loading...</p>
+      <div className="onboarding-page">
+        <div className="onboarding-card">
+          <p>Loading onboarding data...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.header}>
-        <h1>Employee Onboarding</h1>
-        <p>
-          Create a new employee, assign a role and grant
-          application access.
-        </p>
+    <div className="onboarding-page">
+      <div className="onboarding-header">
+        <div>
+          <h1>Employee Onboarding</h1>
+          <p>
+            Add team members, assign roles and manage application access.
+          </p>
+        </div>
+
+        <div className="onboarding-header-icon">👥</div>
       </div>
 
       {error && (
-        <div style={styles.error}>
-          {error}
-        </div>
+        <div className="onboarding-alert error">{error}</div>
       )}
 
       {success && (
-        <div style={styles.success}>
-          {success}
-        </div>
+        <div className="onboarding-alert success">{success}</div>
       )}
 
-      <div style={styles.card}>
-        <h2>Create Employee</h2>
+      <div className="onboarding-stats">
+        <div className="onboarding-stat">
+          <div className="onboarding-stat-label">Total Employees</div>
+          <div className="onboarding-stat-value">{employees.length}</div>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div style={styles.formGroup}>
-            <label>Name</label>
+        <div className="onboarding-stat">
+          <div className="onboarding-stat-label">Active Employees</div>
+          <div className="onboarding-stat-value">{activeEmployees}</div>
+        </div>
 
-            <input
-              type="text"
-              value={name}
-              onChange={(event) =>
-                setName(event.target.value)
-              }
-              placeholder="Enter employee name"
-              style={styles.input}
-            />
-          </div>
-
-          <div style={styles.formGroup}>
-            <label>Email</label>
-
-            <input
-              type="email"
-              value={email}
-              onChange={(event) =>
-                setEmail(event.target.value)
-              }
-              placeholder="Enter employee email"
-              style={styles.input}
-            />
-          </div>
-
-          <div style={styles.formGroup}>
-            <label>Password</label>
-
-            <input
-              type="password"
-              value={password}
-              onChange={(event) =>
-                setPassword(event.target.value)
-              }
-              placeholder="Enter temporary password"
-              style={styles.input}
-            />
-          </div>
-
-          <div style={styles.formGroup}>
-            <label>Role</label>
-
-            <select
-              value={roleId}
-              onChange={(event) =>
-                setRoleId(event.target.value)
-              }
-              style={styles.input}
-            >
-              <option value="">
-                Select a role
-              </option>
-
-              {roles.length > 0 ? (
-                roles.map((role) => (
-                  <option
-                    key={role.id}
-                    value={role.id}
-                  >
-                    {role.name}
-                  </option>
-                ))
-              ) : (
-                <option disabled>
-                  No roles available
-                </option>
-              )}
-            </select>
-          </div>
-
-          <div style={styles.formGroup}>
-            <label>
-              Application Access
-            </label>
-
-            {applications.length === 0 ? (
-              <p style={styles.noData}>
-                No applications available.
-              </p>
-            ) : (
-              <div style={styles.applicationList}>
-                {applications.map(
-                  (application) => (
-                    <label
-                      key={application.id}
-                      style={styles.applicationItem}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={applicationIds.includes(
-                          application.id
-                        )}
-                        onChange={() =>
-                          handleApplicationChange(
-                            application.id
-                          )
-                        }
-                      />
-
-                      <span>
-                        {application.name}
-                      </span>
-                    </label>
-                  )
-                )}
-              </div>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            style={{
-              ...styles.button,
-              opacity: submitting ? 0.7 : 1,
-            }}
-          >
-            {submitting
-              ? "Onboarding..."
-              : "Onboard Employee"}
-          </button>
-        </form>
+        <div className="onboarding-stat">
+          <div className="onboarding-stat-label">Inactive Employees</div>
+          <div className="onboarding-stat-value">{inactiveEmployees}</div>
+        </div>
       </div>
 
-      <div style={styles.card}>
-        <h2>Current Employees</h2>
-
-        {employees.length === 0 ? (
-          <p>No employees found.</p>
-        ) : (
-          <div>
-            {employees.map((employee) => (
-              <div
-                key={employee.id}
-                style={styles.employee}
-              >
-                <div>
-                  <strong>
-                    {employee.name}
-                  </strong>
-
-                  <div style={styles.email}>
-                    {employee.email}
-                  </div>
-                </div>
-
-                <span
-                  style={{
-                    ...styles.status,
-                    backgroundColor:
-                      employee.status === "active"
-                        ? "#dcfce7"
-                        : "#fee2e2",
-                    color:
-                      employee.status === "active"
-                        ? "#166534"
-                        : "#991b1b",
-                  }}
-                >
-                  {employee.status}
-                </span>
-              </div>
-            ))}
+      <div className="onboarding-content">
+        <section className="onboarding-card">
+          <div className="onboarding-card-heading">
+            <h2>Create Employee</h2>
+            <p>Enter employee details and configure their access.</p>
           </div>
-        )}
+
+          <form className="onboarding-form" onSubmit={handleSubmit}>
+            <div className="onboarding-field">
+              <label htmlFor="employee-name">Full Name</label>
+              <input
+                id="employee-name"
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Enter employee name"
+                required
+              />
+            </div>
+
+            <div className="onboarding-field">
+              <label htmlFor="employee-email">Email Address</label>
+              <input
+                id="employee-email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="employee@company.com"
+                required
+              />
+            </div>
+
+            <div className="onboarding-field">
+              <label htmlFor="employee-password">Temporary Password</label>
+              <input
+                id="employee-password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Enter temporary password"
+                required
+              />
+            </div>
+
+            <div className="onboarding-field">
+              <label htmlFor="employee-role">Assign Role</label>
+              <select
+                id="employee-role"
+                value={roleId}
+                onChange={(event) => setRoleId(event.target.value)}
+                required
+              >
+                <option value="">Select a role</option>
+                {roles.map((role) => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="onboarding-field">
+              <label>Application Access</label>
+
+              {applications.length === 0 ? (
+                <p className="onboarding-empty">
+                  No applications available.
+                </p>
+              ) : (
+                <div className="onboarding-application-list">
+                  {applications.map((application) => {
+                    const selected = applicationIds.includes(application.id);
+
+                    return (
+                      <label
+                        key={application.id}
+                        className={`onboarding-application-item ${
+                          selected ? "selected" : ""
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          onChange={() =>
+                            handleApplicationChange(application.id)
+                          }
+                        />
+                        <span>{application.name}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+
+              <p className="onboarding-selection-count">
+                {applicationIds.length} application(s) selected
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              className="onboarding-submit"
+              disabled={submitting}
+            >
+              {submitting ? "Creating Employee..." : "+ Onboard Employee"}
+            </button>
+          </form>
+        </section>
+
+        <section className="onboarding-card">
+          <div className="onboarding-card-heading">
+            <h2>Current Employees</h2>
+            <p>View and search employees in your organization.</p>
+          </div>
+
+          <div className="onboarding-employee-toolbar">
+            <input
+              className="onboarding-search"
+              type="search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search name, email or ID..."
+            />
+          </div>
+
+          {filteredEmployees.length === 0 ? (
+            <div className="onboarding-empty">
+              {employees.length === 0
+                ? "No employees found."
+                : "No employees match your search."}
+            </div>
+          ) : (
+            <div className="onboarding-employee-list">
+              {filteredEmployees.map((employee) => (
+                <div className="onboarding-employee" key={employee.id}>
+                  <div className="onboarding-employee-info">
+                    <div className="onboarding-avatar">
+                      {employee.name?.charAt(0)?.toUpperCase() || "U"}
+                    </div>
+
+                    <div style={{ minWidth: 0 }}>
+                      <div className="onboarding-employee-name">
+                        {employee.name}
+                      </div>
+                      <div className="onboarding-employee-email">
+                        {employee.email}
+                      </div>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`onboarding-status ${
+                      employee.status === "active" ? "" : "inactive"
+                    }`}
+                  >
+                    {employee.status || "Unknown"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
 }
 
-const styles = {
-  page: {
-    padding: "30px",
-    maxWidth: "1000px",
-    margin: "0 auto",
-  },
-
-  header: {
-    marginBottom: "25px",
-  },
-
-  card: {
-    backgroundColor: "#ffffff",
-    padding: "25px",
-    marginBottom: "25px",
-    borderRadius: "10px",
-    boxShadow:
-      "0 2px 8px rgba(0, 0, 0, 0.08)",
-  },
-
-  formGroup: {
-    marginBottom: "18px",
-  },
-
-  input: {
-    display: "block",
-    width: "100%",
-    marginTop: "7px",
-    padding: "10px",
-    border: "1px solid #d1d5db",
-    borderRadius: "6px",
-    boxSizing: "border-box",
-    fontSize: "14px",
-  },
-
-  applicationList: {
-    marginTop: "10px",
-  },
-
-  applicationItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "9px",
-    marginBottom: "6px",
-    border: "1px solid #e5e7eb",
-    borderRadius: "6px",
-    cursor: "pointer",
-  },
-
-  noData: {
-    color: "#6b7280",
-  },
-
-  button: {
-    padding: "11px 20px",
-    border: "none",
-    borderRadius: "6px",
-    backgroundColor: "#2563eb",
-    color: "#ffffff",
-    cursor: "pointer",
-    fontWeight: "600",
-  },
-
-  error: {
-    padding: "12px",
-    marginBottom: "20px",
-    borderRadius: "6px",
-    backgroundColor: "#fee2e2",
-    color: "#991b1b",
-  },
-
-  success: {
-    padding: "12px",
-    marginBottom: "20px",
-    borderRadius: "6px",
-    backgroundColor: "#dcfce7",
-    color: "#166534",
-  },
-
-  employee: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "14px 0",
-    borderBottom: "1px solid #e5e7eb",
-  },
-
-  email: {
-    marginTop: "4px",
-    color: "#6b7280",
-    fontSize: "13px",
-  },
-
-  status: {
-    padding: "5px 10px",
-    borderRadius: "20px",
-    fontSize: "12px",
-    fontWeight: "600",
-  },
-};
-
 export default Onboarding;
-

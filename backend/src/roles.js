@@ -26,6 +26,7 @@ router.get(
         `SELECT
            roles.id,
            roles.name,
+           roles.description,
            COUNT(user_roles.user_id) AS employee_count
          FROM roles
          LEFT JOIN user_roles
@@ -40,6 +41,7 @@ router.get(
         (row) => ({
           id: row.id,
           name: row.name,
+          description: row.description,
           employeeCount:
             Number(row.employee_count),
         })
@@ -57,6 +59,97 @@ router.get(
       res.status(500).json({
         message:
           "Failed to load roles",
+      });
+    }
+  }
+);
+
+// ==========================================
+// Get All Available Permissions
+// ==========================================
+
+router.get(
+  "/permissions",
+  authenticateToken,
+  requirePermission("roles:read"),
+  async (req, res) => {
+    try {
+      const result = await pool.query(
+        `SELECT id, name, description
+         FROM permissions
+         ORDER BY name`
+      );
+
+      res.json({
+        data: result.rows,
+      });
+    } catch (error) {
+      console.error(
+        "Get permissions error:",
+        error
+      );
+
+      res.status(500).json({
+        message: "Failed to load permissions",
+      });
+    }
+  }
+);
+
+// ==========================================
+// Get Employees Assigned to a Role
+// ==========================================
+
+router.get(
+  "/:id/employees",
+  authenticateToken,
+  requirePermission("roles:read"),
+  async (req, res) => {
+    const roleId = req.params.id;
+    const organizationId = req.user.organizationId;
+
+    try {
+      const roleResult = await pool.query(
+        `SELECT id, name
+         FROM roles
+         WHERE id = $1
+         AND organization_id = $2`,
+        [roleId, organizationId]
+      );
+
+      if (roleResult.rows.length === 0) {
+        return res.status(404).json({
+          message: "Role not found",
+        });
+      }
+
+      const result = await pool.query(
+        `SELECT
+           users.id,
+           users.name,
+           users.email,
+           users.status
+         FROM users
+         INNER JOIN user_roles
+           ON users.id = user_roles.user_id
+         WHERE user_roles.role_id = $1
+         AND users.organization_id = $2
+         ORDER BY users.name`,
+        [roleId, organizationId]
+      );
+
+      res.json({
+        role: roleResult.rows[0],
+        data: result.rows,
+      });
+    } catch (error) {
+      console.error(
+        "Get role employees error:",
+        error
+      );
+
+      res.status(500).json({
+        message: "Failed to load role employees",
       });
     }
   }
@@ -157,8 +250,8 @@ router.post(
   authenticateToken,
   requirePermission("roles:create"),
   async (req, res) => {
-    const { name } =
-      req.body;
+
+    const { name, description } = req.body;
 
     const organizationId =
       req.user.organizationId;
@@ -175,16 +268,19 @@ router.post(
         `INSERT INTO roles
          (
            organization_id,
-           name
+           name,
+           description
          )
          VALUES
          ($1, $2)
          RETURNING
            id,
-           name`,
+           name,
+           description`,
         [
           organizationId,
           name.trim(),
+          description?.trim() || null,
         ]
       );
 

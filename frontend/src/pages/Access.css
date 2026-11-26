@@ -1,0 +1,529 @@
+
+/* ==========================================
+   ACCESS MANAGEMENT PAGE
+========================================== */
+
+.access-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 24px;
+  color: #14213d;
+}
+
+/* Hero banner */
+
+.access-hero {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 124px;
+  padding: 22px 28px;
+  border: 1px solid #cbdcff;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #e8f0ff, #f5f8ff);
+  overflow: hidden;
+}
+
+.access-hero-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: #d7e5ff;
+  font-size: 42px;
+}
+
+.access-hero-text h1 {
+  margin: 0 0 8px;
+  color: #14284b;
+  font-size: 29px;
+  font-weight: 750;
+}
+
+.access-hero-text p {
+  margin: 0;
+  color: #526687;
+  font-size: 15px;
+}
+
+.access-hero-decoration {
+  margin-left: auto;
+  padding-right: 25px;
+  color: #2563eb;
+  font-size: 76px;
+  opacity: 0.75;
+}
+
+/* Grant access card */
+
+.grant-access-card {
+  padding: 22px;
+  border: 1px solid #e5eaf2;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+.access-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.heading-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.access-section-heading h2 {
+  margin: 0;
+  color: #172b4d;
+  font-size: 19px;
+}
+
+.access-section-subtitle {
+  margin: 9px 0 17px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.grant-access-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 14px;
+}
+
+.grant-access-form select {
+  width: 100%;
+  min-height: 47px;
+  padding: 0 14px;
+  border: 1px solid #d7dfed;
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.grant-access-form select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.grant-access-button {
+  min-height: 47px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 9px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.grant-access-button:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.grant-access-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Feedback messages */
+
+.access-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.access-alert button {
+  border: none;
+  background: transparent;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.access-alert-error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.access-alert-success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+/* Summary cards */
+
+.access-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.access-summary-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 18px 20px;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.access-summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 20px rgba(15, 23, 42, 0.07);
+}
+
+.summary-label {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.access-summary-card strong {
+  color: #172b4d;
+  font-size: 27px;
+}
+
+.access-summary-card .summary-active {
+  color: #059669;
+}
+
+.access-summary-card .summary-revoked {
+  color: #dc2626;
+}
+
+.summary-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 23px;
+}
+
+/* Toolbar */
+
+.access-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.access-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid #dce3ef;
+  border-radius: 9px;
+}
+
+.access-search span {
+  color: #334155;
+  font-size: 24px;
+}
+
+.access-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #334155;
+  font-size: 14px;
+}
+
+.access-status-filter {
+  min-width: 145px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #dce3ef;
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.access-refresh-button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #dce3ef;
+  border-radius: 9px;
+  background: #fff;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.access-refresh-button:hover:not(:disabled) {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.access-refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Table */
+
+.access-table-card {
+  overflow: hidden;
+  border: 1px solid #e5eaf2;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+.access-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.access-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.access-table thead {
+  background: #f5f7fb;
+}
+
+.access-table th {
+  padding: 16px 18px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.access-table td {
+  padding: 13px 18px;
+  border-top: 1px solid #edf0f5;
+  color: #263750;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.access-table tbody tr {
+  transition: background 0.2s;
+}
+
+.access-table tbody tr:hover {
+  background: #f8faff;
+}
+
+/* Employee and application */
+
+.access-employee-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.employee-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e8efff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.application-name {
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Status badges */
+
+.access-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-revoked {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Actions */
+
+.revoke-access-button {
+  padding: 7px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fff1f2;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.revoke-access-button:hover {
+  transform: translateY(-1px);
+  background: #fee2e2;
+}
+
+.access-no-action {
+  color: #94a3b8;
+  padding-left: 12px;
+}
+
+/* Footer and empty states */
+
+.access-table-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #edf0f5;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.access-loading,
+.access-empty {
+  padding: 55px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.access-empty span {
+  font-size: 34px;
+}
+
+.access-empty h3 {
+  margin: 12px 0 7px;
+  color: #334155;
+}
+
+.access-empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 900px) {
+  .grant-access-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grant-access-button {
+    grid-column: 1 / -1;
+  }
+
+  .access-hero-decoration {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .access-page {
+    padding: 14px;
+    gap: 16px;
+  }
+
+  .access-hero {
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .access-hero-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 28px;
+  }
+
+  .access-hero-text h1 {
+    font-size: 21px;
+  }
+
+  .access-hero-text p {
+    font-size: 12px;
+  }
+
+  .grant-access-form {
+    grid-template-columns: 1fr;
+  }
+
+  .grant-access-button {
+    grid-column: auto;
+  }
+
+  .access-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .access-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .access-status-filter,
+  .access-refresh-button {
+    width: 100%;
+  }
+
+  .access-table th,
+  .access-table td {
+    padding: 12px;
+  }
+}
