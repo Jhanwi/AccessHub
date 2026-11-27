@@ -62,6 +62,15 @@ router.post("/register", async (req, res) => {
       [user.id, roleResult.rows[0].id]
     );
 
+    // Give the organisation creator full Admin permissions.
+    await client.query(
+      `INSERT INTO role_permissions (role_id, permission_id)
+       SELECT $1, id
+       FROM permissions
+       ON CONFLICT DO NOTHING`,
+      [roleResult.rows[0].id]
+    );
+
     await client.query(
       `INSERT INTO audit_logs
        (organization_id, user_id, action, entity_type, entity_id, details)
