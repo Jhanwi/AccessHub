@@ -75,14 +75,25 @@ function Navbar() {
               <div className="dropdown-user">
                 {user.email || ""}
               </div>
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="dropdown-logout"
-              >
-                Logout
+             <button
+                 type="button"
+                 onClick={() => {
+                   setProfileOpen(false);
+                   navigate("/profile");
+                  }}
+                 className="dropdown-profile"
+                >
+               My Profile
               </button>
-            </div>
+
+             <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="dropdown-logout"
+                >
+               Logout
+              </button>
+            </div> 
           )}
         </div>
       </div>

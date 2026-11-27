@@ -349,6 +349,24 @@
   overflow-wrap: anywhere;
 }
 
+.dropdown-profile {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 6px;
+  border: none;
+  border-radius: 7px;
+  background: #eff6ff;
+  color: #2455ad;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dropdown-profile:hover {
+  background: #dbeafe;
+}   
+
 .dropdown-logout {
   width: 100%;
   padding: 10px;

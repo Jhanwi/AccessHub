@@ -20,6 +20,7 @@ import Access from "./pages/Access";
 import Onboarding from "./pages/Onboarding";
 import Offboarding from "./pages/Offboarding";
 import AuditLogs from "./pages/AuditLogs";
+import Profile from "./pages/Profile";
 
 function DashboardLayout({ children }) {
   return (
@@ -67,6 +68,18 @@ function App() {
                 <Dashboard />
               </DashboardLayout>
             </ProtectedRoute>
+          }
+        />
+
+        {/* My Profile - Available to Admin and Employee */}
+        <Route
+         path="/profile"
+         element={
+           <ProtectedRoute>
+             <DashboardLayout>
+               <Profile />
+             </DashboardLayout>
+           </ProtectedRoute>
           }
         />
 

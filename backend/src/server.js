@@ -13,6 +13,7 @@ const accessRoutes = require("./access");
 const onboardingRoutes = require("./onboarding");
 const offboardingRoutes = require("./offboarding");
 const auditRoutes = require("./audit");
+const profileRoutes = require("./profile");
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: "4mb" }));
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/employees", employeeRoutes);
@@ -42,6 +43,7 @@ app.use(
   offboardingRoutes
 );
 app.use("/api/audit-logs", auditRoutes);
+app.use("/api/profile", profileRoutes);
 
 app.get("/", (req, res) => {
   res.json({
