@@ -159,7 +159,7 @@ function Dashboard() {
      <div className="page-header">
        <div>
          <h1>
-            Welcome back, {user.name || "User"}!
+            👋 Welcome back, {user.name || "User"}!
           </h1>
 
          <p> Here's what's happening across your organization today.</p>

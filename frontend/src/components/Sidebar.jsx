@@ -2,20 +2,20 @@
 import { NavLink } from "react-router-dom";
 import "../Layout.css";
 
-function Sidebar() {
+function Sidebar({ collapsed, mobileOpen, onClose }) {
   const user = JSON.parse(
     localStorage.getItem("accesshub_user") || "{}"
   );
 
   const links = [
-    { name: "Dashboard", path: "/dashboard", icon: "▦" },
-    { name: "Employees", path: "/employees", icon: "♙" },
-    { name: "Roles", path: "/roles", icon: "♧" },
-    { name: "Applications", path: "/applications", icon: "▣" },
-    { name: "Access Management", path: "/access", icon: "⚿" },
-    { name: "Onboarding", path: "/onboarding", icon: "↗" },
-    { name: "Offboarding", path: "/offboarding", icon: "↙" },
-    { name: "Audit Logs", path: "/audit-logs", icon: "◷" },
+    { name: "Dashboard", path: "/dashboard", icon: "📊" },
+    { name: "Employees", path: "/employees", icon: "👥" },
+    { name: "Roles", path: "/roles", icon: "🛡️" },
+    { name: "Applications", path: "/applications", icon: "⊞" },
+    { name: "Access Management", path: "/access", icon: "🔑" },
+    { name: "Onboarding", path: "/onboarding", icon: "➕" },
+    { name: "Offboarding", path: "/offboarding", icon: "➖" },
+    { name: "Audit Logs", path: "/audit-logs", icon: "📋" },
   ];
 
   const initials = (user.name || "User")
@@ -26,12 +26,16 @@ function Sidebar() {
     .toUpperCase();
 
   return (
-    <aside className="app-sidebar">
+    <aside
+      className={`app-sidebar ${
+        collapsed ? "sidebar-is-collapsed" : ""
+      } ${mobileOpen ? "sidebar-mobile-open" : ""}`}
+    >
       <div className="sidebar-brand">
         <div className="brand-icon">◆</div>
-        <div>
+        <div className="brand-text">
           <span className="brand-name">AccessHub</span>
-          <span className="brand-caption">IDENTITY MANAGEMENT</span>
+          
         </div>
       </div>
 
@@ -43,12 +47,14 @@ function Sidebar() {
             key={link.path}
             to={link.path}
             end={link.path === "/dashboard"}
+            title={collapsed ? link.name : undefined}
+            onClick={onClose}
             className={({ isActive }) =>
               isActive ? "sidebar-link active" : "sidebar-link"
             }
           >
             <span className="sidebar-icon">{link.icon}</span>
-            <span>{link.name}</span>
+            <span className="sidebar-link-text">{link.name}</span>
           </NavLink>
         ))}
       </nav>

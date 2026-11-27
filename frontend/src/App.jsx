@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -8,7 +9,6 @@ import {
 
 import Authentication from "./pages/Authentication";
 import Dashboard from "./pages/Dashboard";
-
 import ProtectedRoute from "./components/ProtectedRoute";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
@@ -24,11 +24,44 @@ import Profile from "./pages/Profile";
 import Notifications from "./pages/Notifications";
 
 function DashboardLayout({ children }) {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  function toggleSidebar() {
+    if (window.innerWidth <= 700) {
+      setMobileSidebarOpen((open) => !open);
+    } else {
+      setSidebarCollapsed((collapsed) => !collapsed);
+    }
+  }
+
+  function closeMobileSidebar() {
+    setMobileSidebarOpen(false);
+  }
+
   return (
-    <div className="app-layout">
-      <Sidebar />
+    <div
+      className={`app-layout ${
+        sidebarCollapsed ? "sidebar-collapsed" : ""
+      } ${mobileSidebarOpen ? "mobile-sidebar-open" : ""}`}
+    >
+      <Sidebar
+        collapsed={sidebarCollapsed}
+        mobileOpen={mobileSidebarOpen}
+        onClose={closeMobileSidebar}
+      />
+
+      {mobileSidebarOpen && (
+        <button
+          type="button"
+          className="sidebar-backdrop"
+          aria-label="Close navigation menu"
+          onClick={closeMobileSidebar}
+        />
+      )}
+
       <div className="main-area">
-        <Navbar />
+        <Navbar onMenuClick={toggleSidebar} />
         {children}
       </div>
     </div>
@@ -39,65 +72,48 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* Login page opens first */}
         <Route path="/login" element={<Authentication />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* Old login URLs */}
         <Route path="/employee/login" element={<Navigate to="/login" replace />} />
         <Route path="/admin/login" element={<Navigate to="/login" replace />} />
 
-        {/* Employee Dashboard */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute requiredRole="employee">
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
+              <DashboardLayout><Dashboard /></DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Admin Dashboard */}
         <Route
           path="/admin/dashboard"
           element={
             <ProtectedRoute requiredRole="admin">
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
+              <DashboardLayout><Dashboard /></DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* My Profile - Available to Admin and Employee */}
         <Route
-         path="/profile"
-         element={
-           <ProtectedRoute>
-             <DashboardLayout>
-               <Profile />
-             </DashboardLayout>
-           </ProtectedRoute>
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout><Profile /></DashboardLayout>
+            </ProtectedRoute>
           }
         />
 
-
-        {/* Notifications - Available to Admin and Employee */}
         <Route
           path="/notifications"
           element={
             <ProtectedRoute>
-              <DashboardLayout>
-                <Notifications />
-              </DashboardLayout>
+              <DashboardLayout><Notifications /></DashboardLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Admin Pages */}
         <Route path="/employees" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Employees /></DashboardLayout></ProtectedRoute>} />
         <Route path="/roles" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Roles /></DashboardLayout></ProtectedRoute>} />
         <Route path="/applications" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Applications /></DashboardLayout></ProtectedRoute>} />
@@ -106,9 +122,7 @@ function App() {
         <Route path="/offboarding" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><Offboarding /></DashboardLayout></ProtectedRoute>} />
         <Route path="/audit-logs" element={<ProtectedRoute requiredRole="admin"><DashboardLayout><AuditLogs /></DashboardLayout></ProtectedRoute>} />
 
-        {/* Unknown routes go to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
-
       </Routes>
     </BrowserRouter>
   );

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api";
 import "../Layout.css";
 
-function Navbar() {
+function Navbar({ onMenuClick }) {
   const navigate = useNavigate();
 
   const [profileOpen, setProfileOpen] = useState(false);
@@ -74,6 +74,17 @@ function Navbar() {
 
   return (
     <header className="navbar">
+      <button
+         type="button"
+         className="menu-toggle"
+         onClick={onMenuClick}
+         aria-label="Toggle sidebar"
+         title="Toggle sidebar"
+        >
+       <span></span>
+       <span></span>
+       <span></span>
+      </button>
       <div className="navbar-heading">
         <span className="navbar-title">Access Management</span>
         <span className="navbar-subtitle">
