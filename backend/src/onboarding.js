@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const pool = require("./db");
+const { notifyAdmins, notifyUser } = require("./notificationService");
 
 const {
   authenticateToken,
@@ -176,6 +177,25 @@ router.post(
             applicationIds,
           }),
         ]
+      );
+
+      await notifyAdmins(
+        organizationId,
+        "Employee onboarded",
+        `${employee.name} has been onboarded successfully.`,
+        "employee",
+        "user",
+        employee.id
+      );
+
+      await notifyUser(
+        organizationId,
+        employee.id,
+        "Welcome to AccessHub",
+        "Your employee account has been created and onboarding is complete.",
+        "employee",
+        "user",
+        employee.id
       );
 
       res.status(201).json({

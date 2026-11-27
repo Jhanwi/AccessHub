@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require("./db");
+const { notifyAdmins } = require("./notificationService");
 
 const {
   authenticateToken,
@@ -128,6 +129,15 @@ router.patch(
           ]
         );
       }
+
+      await notifyAdmins(
+        organizationId,
+        "Employee offboarded",
+        `${updateResult.rows[0].name} has been offboarded. ${accessResult.rows.length} application access grant(s) were revoked.`,
+        "employee",
+        "user",
+        employeeId
+      );
 
       res.json({
         message:

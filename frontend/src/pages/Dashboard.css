@@ -497,11 +497,7 @@
     min-height: 170px;
     padding: 18px 15px;
   }
-}
 
-/* Hide Quick Actions to match the reference layout */
-.quick-actions-section {
-  display: none;
 }
 
 @media (min-width: 1200px) {
@@ -696,4 +692,53 @@
   width: 100%;
   height: 230px;
   padding-top: 5px;
+}
+/* ===== RECENT ACTIVITY PAGINATION ===== */
+.activity-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  margin-top: 8px;
+  border-top: 1px solid #edf1f6;
+}
+
+.activity-pagination > span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.activity-pagination-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.activity-pagination-buttons button {
+  padding: 8px 14px;
+  border: 1px solid #dce4ef;
+  border-radius: 7px;
+  background: #fff;
+  color: #315fbd;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activity-pagination-buttons button:hover:not(:disabled) {
+  background: #eff5ff;
+  border-color: #9bb8f0;
+}
+
+.activity-pagination-buttons button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .activity-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

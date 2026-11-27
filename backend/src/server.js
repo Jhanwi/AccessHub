@@ -14,6 +14,7 @@ const onboardingRoutes = require("./onboarding");
 const offboardingRoutes = require("./offboarding");
 const auditRoutes = require("./audit");
 const profileRoutes = require("./profile");
+const notificationRoutes = require("./notifications");
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(
 );
 app.use("/api/audit-logs", auditRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/", (req, res) => {
   res.json({

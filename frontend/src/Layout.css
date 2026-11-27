@@ -467,3 +467,133 @@
     font-size: 14px;
   }
 }
+
+/* ===== NOTIFICATION DROPDOWN ===== */
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #ef4444;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 48px;
+  right: -65px;
+  width: 350px;
+  max-width: calc(100vw - 24px);
+  background: #fff;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.16);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 16px;
+  border-bottom: 1px solid #edf0f5;
+  color: #172033;
+}
+
+.notification-header strong {
+  font-size: 14px;
+}
+
+.notification-header button {
+  border: none;
+  background: transparent;
+  color: #315fbd;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notification-list {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 13px 16px;
+  border-bottom: 1px solid #f0f2f6;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background: #f8faff;
+}
+
+.notification-item.unread {
+  background: #f5f8ff;
+}
+
+.notification-item-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: #1e293b;
+  font-size: 12px;
+}
+
+.notification-unread-dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3b70d6;
+}
+
+.notification-item p {
+  margin: 6px 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.notification-item small {
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+.notification-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.notification-history {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-top: 1px solid #edf0f5;
+  background: #fff;
+  color: #315fbd;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notification-history:hover {
+  background: #f8faff;
+}

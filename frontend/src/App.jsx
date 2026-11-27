@@ -21,6 +21,7 @@ import Onboarding from "./pages/Onboarding";
 import Offboarding from "./pages/Offboarding";
 import AuditLogs from "./pages/AuditLogs";
 import Profile from "./pages/Profile";
+import Notifications from "./pages/Notifications";
 
 function DashboardLayout({ children }) {
   return (
@@ -80,6 +81,19 @@ function App() {
                <Profile />
              </DashboardLayout>
            </ProtectedRoute>
+          }
+        />
+
+
+        {/* Notifications - Available to Admin and Employee */}
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Notifications />
+              </DashboardLayout>
+            </ProtectedRoute>
           }
         />
 

@@ -150,3 +150,22 @@ CREATE TABLE audit_logs (
         REFERENCES users(id)
         ON DELETE SET NULL
 );
+-- Notifications
+CREATE TABLE IF NOT EXISTS notifications (
+    id SERIAL PRIMARY KEY,
+    organization_id INTEGER NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    recipient_user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(50) DEFAULT 'general',
+    entity_type VARCHAR(50),
+    entity_id INTEGER,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_recipient
+ON notifications(recipient_user_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_notifications_unread
+ON notifications(recipient_user_id, is_read);

@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const pool = require("./db");
+const { notifyAdmins, notifyUser } = require("./notificationService");
 
 const {
   authenticateToken,
@@ -332,6 +333,27 @@ router.post(
         ]
       );
 
+      await notifyAdmins(
+        organizationId,
+        "New employee created",
+        `${employee.name} was added to your organization.`,
+        "employee",
+        "user",
+        employee.id
+      );
+
+      if (role) {
+        await notifyUser(
+          organizationId,
+          employee.id,
+          "Role assigned",
+          `You have been assigned the ${role.name} role.`,
+          "role",
+          "user",
+          employee.id
+        );
+      }
+
       res.status(201).json({
         message:
           "Employee created successfully",
@@ -524,6 +546,15 @@ router.patch(
         ]
       );
 
+      await notifyAdmins(
+        organizationId,
+        "Employee deactivated",
+        `${employee.name} was deactivated.`,
+        "employee",
+        "user",
+        employee.id
+      );
+
       res.json({
         message:
           "Employee disabled successfully",
@@ -704,6 +735,25 @@ router.patch(
               newRole.name,
           }),
         ]
+      );
+
+      await notifyAdmins(
+        organizationId,
+        "Employee role changed",
+        `${employee.name}'s role changed from ${previousRole?.name || "Unassigned"} to ${newRole.name}.`,
+        "role",
+        "user",
+        employee.id
+      );
+
+      await notifyUser(
+        organizationId,
+        employee.id,
+        "Your role has changed",
+        `Your role is now ${newRole.name}.`,
+        "role",
+        "user",
+        employee.id
       );
 
       res.json({

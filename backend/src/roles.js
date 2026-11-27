@@ -1,6 +1,7 @@
 const express = require("express");
 
 const pool = require("./db");
+const { notifyAdmins } = require("./notificationService");
 
 const {
   authenticateToken,
@@ -272,7 +273,7 @@ router.post(
            description
          )
          VALUES
-         ($1, $2)
+         ($1, $2, $3)
          RETURNING
            id,
            name,
@@ -314,6 +315,15 @@ router.post(
               role.name,
           }),
         ]
+      );
+
+      await notifyAdmins(
+        organizationId,
+        "New role created",
+        `The ${role.name} role was created.`,
+        "role",
+        "role",
+        role.id
       );
 
       res.status(201).json({
@@ -473,6 +483,15 @@ router.put(
             permissionIds,
           }),
         ]
+      );
+
+      await notifyAdmins(
+        organizationId,
+        "Role permissions updated",
+        `Permissions for the ${role.name} role were updated.`,
+        "role",
+        "role",
+        role.id
       );
 
       res.json({

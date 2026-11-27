@@ -40,6 +40,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState("");
+  const [activityPage, setActivityPage] = useState(1);
+  const activitiesPerPage = 5;
 
 
   useEffect(() => {
@@ -105,6 +107,12 @@ function Dashboard() {
       setLoading(false);
     }
   }
+
+  const totalActivityPages = Math.max(1, Math.ceil(recentActivity.length / activitiesPerPage));
+  const paginatedRecentActivity = recentActivity.slice(
+    (activityPage - 1) * activitiesPerPage,
+    activityPage * activitiesPerPage
+  );
 
   function handleCardKeyDown(event, path) {
     if (event.key === "Enter" || event.key === " ") {
@@ -636,7 +644,7 @@ function Dashboard() {
 
             <div className="activity-list">
 
-              {recentActivity.map((activity) => (
+              {paginatedRecentActivity.map((activity) => (
 
                 <div
                   className="activity-item"
@@ -677,6 +685,32 @@ function Dashboard() {
 
             </div>
 
+          )}
+
+          {recentActivity.length > activitiesPerPage && (
+            <div className="activity-pagination">
+              <span>
+                Page {activityPage} of {totalActivityPages}
+              </span>
+
+              <div className="activity-pagination-buttons">
+                <button
+                  type="button"
+                  onClick={() => setActivityPage((page) => Math.max(1, page - 1))}
+                  disabled={activityPage === 1}
+                >
+                  Previous
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActivityPage((page) => Math.min(totalActivityPages, page + 1))}
+                  disabled={activityPage === totalActivityPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           )}
 
         </div>

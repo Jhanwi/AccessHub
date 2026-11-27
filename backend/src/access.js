@@ -1,6 +1,7 @@
 const express = require("express");
 
 const pool = require("./db");
+const { notifyAdmins, notifyUser } = require("./notificationService");
 
 const {
   authenticateToken,
@@ -284,6 +285,25 @@ router.post(
         ]
       );
 
+      await notifyAdmins(
+        organizationId,
+        "Application access granted",
+        `${employee.name} was granted access to ${application.name}.`,
+        "access",
+        "access_grant",
+        accessGrant.id
+      );
+
+      await notifyUser(
+        organizationId,
+        employee.id,
+        "Application access granted",
+        `You now have access to ${application.name}.`,
+        "access",
+        "access_grant",
+        accessGrant.id
+      );
+
       res.status(201).json({
         message:
           "Application access granted successfully",
@@ -425,6 +445,25 @@ router.patch(
               access.application_name,
           }),
         ]
+      );
+
+      await notifyAdmins(
+        organizationId,
+        "Application access revoked",
+        `${access.user_name}'s access to ${access.application_name} was revoked.`,
+        "access",
+        "access_grant",
+        accessId
+      );
+
+      await notifyUser(
+        organizationId,
+        access.user_id,
+        "Application access revoked",
+        `Your access to ${access.application_name} has been revoked.`,
+        "access",
+        "access_grant",
+        accessId
       );
 
       res.json({
