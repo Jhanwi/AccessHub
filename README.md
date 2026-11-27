@@ -28,7 +28,7 @@ Explore the different features of Employee Management System through this slides
   <img src="screenshots/accesshub-demo.gif" alt="Employee Management System Demo" width="850"/>
 </p>
 
-*The slideshow automatically cycles through all 11 application screens.*
+
 
 ## 🛠️ Tech Stack
 
