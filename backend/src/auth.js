@@ -14,190 +14,96 @@ const router = express.Router();
 // Register
 // ==========================================
 
-router.post(
-  "/register",
-  async (req, res) => {
-    const {
-      name,
-      email,
-      password,
-      organizationName,
-    } = req.body;
+router.post("/register", async (req, res) => {
+  const { name, email, password, organizationName } = req.body;
 
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !organizationName
-    ) {
-      return res.status(400).json({
-        message:
-          "Name, email, password and organization name are required",
-      });
-    }
-
-    try {
-      // --------------------------------------
-      // Create organization
-      // --------------------------------------
-
-      const organizationResult =
-        await pool.query(
-          `INSERT INTO organizations
-           (name)
-           VALUES ($1)
-           RETURNING id, name`,
-          [organizationName]
-        );
-
-      const organization =
-        organizationResult.rows[0];
-
-      // --------------------------------------
-      // Hash password
-      // --------------------------------------
-
-      const passwordHash =
-        await bcrypt.hash(
-          password,
-          10
-        );
-
-      // --------------------------------------
-      // Create user
-      // --------------------------------------
-
-      const userResult =
-        await pool.query(
-          `INSERT INTO users
-           (
-             organization_id,
-             name,
-             email,
-             password_hash,
-             status
-           )
-           VALUES
-           ($1, $2, $3, $4, 'active')
-           RETURNING
-             id,
-             name,
-             email,
-             organization_id,
-             status`,
-          [
-            organization.id,
-            name,
-            email,
-            passwordHash,
-          ]
-        );
-
-      const user =
-        userResult.rows[0];
-
-      // --------------------------------------
-      // Create Admin role
-      // --------------------------------------
-
-      const roleResult =
-        await pool.query(
-          `INSERT INTO roles
-           (
-             organization_id,
-             name
-           )
-           VALUES
-           ($1, 'Admin')
-           RETURNING id`,
-          [organization.id]
-        );
-
-      const adminRoleId =
-        roleResult.rows[0].id;
-
-      // --------------------------------------
-      // Assign Admin role
-      // --------------------------------------
-
-      await pool.query(
-        `INSERT INTO user_roles
-         (
-           user_id,
-           role_id
-         )
-         VALUES
-         ($1, $2)`,
-        [
-          user.id,
-          adminRoleId,
-        ]
-      );
-
-      // --------------------------------------
-      // Audit registration
-      // --------------------------------------
-
-      await pool.query(
-        `INSERT INTO audit_logs
-         (
-           organization_id,
-           user_id,
-           action,
-           entity_type,
-           entity_id,
-           details
-         )
-         VALUES
-         ($1, $2, $3, $4, $5, $6)`,
-        [
-          organization.id,
-          user.id,
-          "USER_REGISTERED",
-          "user",
-          user.id,
-          JSON.stringify({
-            email: user.email,
-          }),
-        ]
-      );
-
-      // --------------------------------------
-      // Create JWT
-      // --------------------------------------
-
-      const token =
-        jwt.sign(
-          {
-            userId: user.id,
-            organizationId:
-              user.organization_id,
-          },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "2h",
-          }
-        );
-
-      res.status(201).json({
-        message:
-          "Registration successful",
-        token,
-        user,
-      });
-    } catch (error) {
-      console.error(
-        "Registration error:",
-        error
-      );
-
-      res.status(500).json({
-        message:
-          "Failed to register user",
-      });
-    }
+  if (!name || !email || !password || !organizationName) {
+    return res.status(400).json({
+      message: "Name, email, password and organization name are required",
+    });
   }
-);
+
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const organizationResult = await client.query(
+      `INSERT INTO organizations (name)
+       VALUES ($1)
+       RETURNING id, name`,
+      [organizationName.trim()]
+    );
+
+    const organization = organizationResult.rows[0];
+
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const userResult = await client.query(
+      `INSERT INTO users
+       (organization_id, name, email, password_hash, status)
+       VALUES ($1, $2, $3, $4, 'active')
+       RETURNING id, name, email, organization_id, status`,
+      [organization.id, name.trim(), email.trim().toLowerCase(), passwordHash]
+    );
+
+    const user = userResult.rows[0];
+
+    const roleResult = await client.query(
+      `INSERT INTO roles (organization_id, name)
+       VALUES ($1, 'Admin')
+       RETURNING id`,
+      [organization.id]
+    );
+
+    await client.query(
+      `INSERT INTO user_roles (user_id, role_id)
+       VALUES ($1, $2)`,
+      [user.id, roleResult.rows[0].id]
+    );
+
+    await client.query(
+      `INSERT INTO audit_logs
+       (organization_id, user_id, action, entity_type, entity_id, details)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [
+        organization.id,
+        user.id,
+        "USER_REGISTERED",
+        "user",
+        user.id,
+        JSON.stringify({ email: user.email }),
+      ]
+    );
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        organizationId: user.organization_id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+
+    await client.query("COMMIT");
+
+    res.status(201).json({
+      message: "Registration successful",
+      token,
+      user: { ...user, roles: ["Admin"] },
+    });
+  } catch (error) {
+    await client.query("ROLLBACK");
+
+    console.error("Registration error:", error);
+
+    res.status(500).json({
+      message: "Failed to register user",
+    });
+  } finally {
+    client.release();
+  }
+});
 
 // ==========================================
 // Login

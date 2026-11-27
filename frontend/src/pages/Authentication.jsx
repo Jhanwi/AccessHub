@@ -23,6 +23,7 @@ function Authentication() {
   const [message, setMessage] = useState("");
 
   const isAdminLogin = loginType === "admin";
+  const isAdminRegistration = !isLogin && isAdminLogin;
 
   const checkAdminRole = (user) => {
     const roles = [
@@ -133,7 +134,7 @@ function Authentication() {
           JSON.stringify(user)
         );
 
-        navigate("/dashboard", { replace: true });
+        navigate("/admin/dashboard", { replace: true });
       }
     } catch (error) {
       setMessage(
@@ -159,16 +160,13 @@ function Authentication() {
           </span>
 
           <h1>
-            Identity.
+            Identity. Access.
             <br />
-            Access.
-            <br />
-            Made simple.
+            <span>Made simple.</span>
           </h1>
 
           <p>
-            A smarter way to manage identities, permissions,
-            applications, and secure access across your organization.
+            Secure access. Greater productivity.
           </p>
 
           <div className="auth-feature-list">
@@ -229,13 +227,9 @@ function Authentication() {
             </button>
           </div>
 
-          {!isLogin && isAdminLogin && (
-            <div className="auth-notice">
-              Administrator registration is not available.
-            </div>
-          )}
+          
 
-          {!isLogin && !isAdminLogin && (
+          {!isLogin && isAdminLogin && (
             <div className="auth-form-switch">
               Already have an account?{" "}
               <button
@@ -403,7 +397,7 @@ function Authentication() {
             </button>
           </form>
 
-          {!isAdminLogin && isLogin && (
+          {isAdminLogin && isLogin && (
             <div className="auth-create-account">
               Don't have an account?{" "}
               <button
