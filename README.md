@@ -5,8 +5,8 @@
 A full-stack web application that helps organizations manage employees, roles, applications, and access permissions from one place. It also supports employee onboarding, offboarding, and activity tracking.
 
 <p>
-  🌐 **[Live Demo](https://access-hub-bice.vercel.app/)** &nbsp; | &nbsp;
-  💻 **[GitHub Repository](https://github.com/Jhanwi/AccessHub)**
+  🌐 [Live Demo](https://access-hub-bice.vercel.app/) &nbsp; | &nbsp;
+  💻 [GitHub Repository](https://github.com/Jhanwi/AccessHub)
 </p>
 
 ## ✨ Key Features
