@@ -6,7 +6,7 @@
 
 <p>
   
-  - 🌐 [Live Demo](https://access-hub-bice.vercel.app/) &nbsp; | &nbsp;
+  - 🌐 [Live Demo](https://access-hub-bice.vercel.app/) &nbsp;  &nbsp;
   - 💻 [GitHub Repository](https://github.com/Jhanwi/AccessHub)
 </p>
 
