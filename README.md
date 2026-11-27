@@ -22,19 +22,13 @@
 
 ## 📸 Project Preview
 
-### 📊 Dashboard
-![Dashboard](screenshots/dashboard.png)
+Explore the different features of Employee Management System through this slideshow.
 
-### 👥 Employee Management
-![Employees](screenshots/employees.png)
+<p align="center">
+  <img src="screenshots/accesshub-demo.gif" alt="Employee Management System Demo" width="850"/>
+</p>
 
-### 🛡️ Role Management
-![Roles](screenshots/roles.png)
-
-### 🔑 Access Management
-![Access Management](screenshots/access-management.png)
-
-*Screenshots coming soon.*
+*The slideshow automatically cycles through all 11 application screens.*
 
 ## 🛠️ Tech Stack
 
